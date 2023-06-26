@@ -10,3 +10,8 @@ export interface ResponseData {
     body: string
     userId: number
 }
+
+export interface PageSettingsI {
+    page: number
+    limit: number
+} 

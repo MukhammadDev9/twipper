@@ -1,1 +1,4 @@
-export interface AppPaginationPropsI { }
+export interface AppPaginationPropsI {
+    handleChange: React.Dispatch<React.SetStateAction<any>>
+    initial: any
+}

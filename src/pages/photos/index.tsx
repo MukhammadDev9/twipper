@@ -19,7 +19,7 @@ const Photos: FC<PhotosPropsI> = ({}) => {
             alignItems={"center"}
         >
             {loading
-                ? [0, 1, 2, 3, 4, 5, 6].map((item) => (
+                ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
                       <PhotoCardSkeleton key={item} />
                   ))
                 : response?.map((item: ResponseData) => (

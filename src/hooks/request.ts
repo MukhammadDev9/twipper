@@ -45,7 +45,7 @@ export const useRequest = <T>(options: {}): ApiResponseI => {
     }
 }
 
-export const useLoad = <T>(options = {}, dependencies = []) => {
+export const useLoad = <T>(options = {}, dependencies: any[] = []) => {
     const request = useGetRequest<T>({ ...options })
     useEffect(() => {
         request.request()

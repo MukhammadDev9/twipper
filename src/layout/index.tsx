@@ -12,7 +12,12 @@ interface LayoutPropsI {
 const Layout: FC<LayoutPropsI> = ({ children }) => {
     return (
         <Box flexGrow={1}>
-            <Grid container spacing={3}>
+            <Grid
+                container
+                spacing={5}
+                display={"flex"}
+                justifyContent={"space-between"}
+            >
                 <Grid xs={3}>
                     <Box
                         sx={{

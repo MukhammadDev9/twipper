@@ -5,6 +5,7 @@ import { PostCardPropsI } from "./types";
 const PostCard: FC<PostCardPropsI> = ({ id, title, body, userId }) => {
     return (
         <Box sx={{ my: "1rem", maxWidth: 600, width: "100%" }}>
+            {id} <br />
             {title}
             <div dangerouslySetInnerHTML={{ __html: body }} />
         </Box>
