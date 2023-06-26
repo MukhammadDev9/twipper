@@ -1,9 +1,9 @@
-import { Box, Skeleton } from "@mui/material";
 import { FC } from "react";
+import { Box, Skeleton } from "@mui/material";
 
-const PostCardSkeleton: FC = () => {
+const PostCardSkeleton: FC = ({}) => {
     return (
-        <Box sx={{ my: "1rem" }}>
+        <Box sx={{ my: "1rem", px: 0 }}>
             <Skeleton
                 variant="rounded"
                 width={200}

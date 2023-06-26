@@ -5,6 +5,7 @@
     "singleQuote": false,
     "importOrder": [
         "^react(.*)",
+        "^@mui(.*)",
         "^clsx(.*)",
         "^framer-motion(.*)",
         "<THIRD_PARTY_MODULES>",

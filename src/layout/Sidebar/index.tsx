@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { SidebarPropsI } from "./types";
+import { Link } from "react-router-dom";
 import {
     Box,
     List,
@@ -7,12 +7,12 @@ import {
     ListItemButton,
     ListItemText,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import { routes } from "../../data/routes";
+import { SidebarPropsI } from "./types";
 
 const Sidebar: FC<SidebarPropsI> = ({}) => {
     return (
-        <Box sx={{ position: "fixed", top: 100, width: 200 }}>
+        <Box sx={{ height: "100%" }}>
             <List sx={{ display: "grid", rowGap: ".5rem", width: "100%" }}>
                 {routes.map((route) => (
                     <ListItem

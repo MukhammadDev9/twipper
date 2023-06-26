@@ -1,23 +1,36 @@
-import { Box, Grid } from "@mui/material";
-import React from "react";
+import { FC } from "react";
+import { Box } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
+import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import Footer from "./Footer";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+interface LayoutPropsI {
+    children: React.ReactNode;
+}
+
+const Layout: FC<LayoutPropsI> = ({ children }) => {
     return (
-        <Box sx={{ position: "relative" }}>
-            <Header />
-            <Grid container spacing={2} sx={{ position: "relative" }}>
-                <Grid item xs={4}>
-                    <Sidebar />
+        <Box flexGrow={1}>
+            <Grid container spacing={3}>
+                <Grid xs={3}>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                            height: "100vh",
+                            position: "fixed",
+                            width: { xs: 260 },
+                        }}
+                    >
+                        <Header />
+                        <Sidebar />
+                        <Footer />
+                    </Box>
                 </Grid>
-                <Grid item xs={8}>
-                    {children}
-                </Grid>
+                <Grid xs={9}>{children}</Grid>
             </Grid>
-
-            <Footer />
         </Box>
     );
 };

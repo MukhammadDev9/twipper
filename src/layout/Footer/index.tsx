@@ -1,11 +1,20 @@
 import React, { FC } from "react";
+import { Box, Typography } from "@mui/material";
 import { FooterPropsI } from "./types";
-import { Box } from "@mui/material";
 
 const Footer: FC<FooterPropsI> = ({}) => {
     return (
-        <Box sx={{ position: "fixed", bottom: 0, right: 0, left: 0 }}>
-            Footer
+        <Box
+            justifyContent={"center"}
+            alignItems={"center"}
+            display={"flex"}
+            height={60}
+            bgcolor={"#ffffff"}
+        >
+            <Typography>
+                Made by:{" "}
+                <a href="https://github.com/MukhammadDev9">mukhammadDev</a>
+            </Typography>
         </Box>
     );
 };

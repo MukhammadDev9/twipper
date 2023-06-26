@@ -1,6 +1,5 @@
-export function a11yProps(index: number) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
+export const adaptiveSize = (startSize: number, minSize: number): number => {
+    const addSize = startSize - minSize
+
+    return minSize + addSize * ((window.innerWidth - 420) / (1440 - 420))
 }

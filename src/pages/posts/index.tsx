@@ -1,15 +1,23 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Box } from "@mui/material";
-import { GetResponseI, PostsProps, ResponseData } from "./types";
+import { PostCard, PostCardSkeleton } from "../../components";
 import { useLoad } from "../../hooks/request";
-import { PostCard } from "../../components";
-import PostCardSkeleton from "../../components/postCardSkeleton";
+import { postsGetUrl } from "../../utils/url";
+import { GetResponseI, PostsProps, ResponseData } from "./types";
 
 const Posts: FC<PostsProps> = ({}) => {
-    const { response, loading } = useLoad<GetResponseI>({ url: "/posts" });
+    const { response, loading } = useLoad<GetResponseI>({
+        url: postsGetUrl(1, 10),
+    });
 
     return (
-        <Box>
+        <Box
+            width="100%"
+            display={"flex"}
+            justifyContent={"center"}
+            flexDirection={"column"}
+            alignItems={"center"}
+        >
             {loading
                 ? [0, 1, 2, 3, 4, 5, 6].map((item) => (
                       <PostCardSkeleton key={item} />

@@ -9,7 +9,6 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.31",
     "@types/react": "^18.2.6",
@@ -47,5 +46,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "prettier": "^2.8.8"
   }
 }

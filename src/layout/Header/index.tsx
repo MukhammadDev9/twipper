@@ -1,20 +1,22 @@
 import React, { FC } from "react";
+import { Box, Typography } from "@mui/material";
 import { HeaderPropsI } from "./types";
-import { Box } from "@mui/material";
 
 const Header: FC<HeaderPropsI> = ({}) => {
     return (
-        <Box sx={{ position: "fixed", top: 0 }}>
+        <Box>
             <Box
                 sx={{
-                    height: 40,
                     display: "flex",
                     alignItems: "center",
                     width: "100%",
-                    bgcolor: "#000",
+                    bgcolor: "#fff",
+                    py: 2,
                 }}
             >
-                Twipper
+                <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+                    Twipper
+                </Typography>
             </Box>
         </Box>
     );
