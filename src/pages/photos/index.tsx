@@ -53,7 +53,7 @@ const Photos: FC<PhotosPropsI> = ({}) => {
                       <PhotoCardSkeleton key={item} />
                   ))
                 : response?.map((item: ResponseData) => (
-                      <PhotoCard key={item.id} {...item} />
+                      <PhotoCard key={item.id} item={item} />
                   ))}
 
             <AppPagination

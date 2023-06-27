@@ -1,14 +1,10 @@
 import { FC } from "react";
 import { Box, Typography } from "@mui/material";
+import AddButton from "../atoms/addButton";
+import { AppSpeedDial } from "../organisms";
 import { PhotoCardPropsI } from "./types";
 
-const PhotoCard: FC<PhotoCardPropsI> = ({
-    albumId,
-    id,
-    title,
-    url,
-    thumbnailUrl,
-}) => {
+const PhotoCard: FC<PhotoCardPropsI> = ({ item }) => {
     return (
         <Box
             my={2}
@@ -26,15 +22,16 @@ const PhotoCard: FC<PhotoCardPropsI> = ({
                 height="100%"
             >
                 <img
-                    src={url}
-                    alt={title}
+                    src={item.url}
+                    alt={item.title}
                     loading="lazy"
                     style={{ objectFit: "cover" }}
                     width="100%"
                     height="100%"
                 />
             </Box>
-            <Typography>{title}</Typography>
+            <Typography>{item.title}</Typography>
+            <AppSpeedDial item={item} />
         </Box>
     );
 };

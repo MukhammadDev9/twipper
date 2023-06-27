@@ -4,12 +4,18 @@ export const adaptiveSize = (startSize: number, minSize: number): number => {
     return minSize + addSize * ((window.innerWidth - 420) / (1440 - 420))
 }
 
-export const generateFakeArray = (length: number) => {
-    const fakeArray = [];
-    for (let i = 0; i < length; i++) {
-        fakeArray.push(Math.floor(Math.random() * 1000));
-    }
-    return fakeArray;
+export const getLocalItem = (name: string): string => {
+    return String(localStorage.getItem(name))
 }
 
-export const clearLocalStorage = () => localStorage.clear()
+export const setLocalItem = (name: string, item: any) => {
+    return localStorage.setItem(name, item)
+}
+
+export const jsonParseString = (item: string) => {
+    return JSON.parse(item)
+}
+
+export const jsonStringifyElement = (element: any) => {
+    return JSON.stringify(element)
+}
