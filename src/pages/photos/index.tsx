@@ -1,14 +1,44 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { PhotoCard, PhotoCardSkeleton } from "../../components";
+import AppPagination from "../../components/pagination";
 import { useLoad } from "../../hooks/request";
 import { photosGetUrl } from "../../utils/url";
-import { GetResponseI, PhotosPropsI, ResponseData } from "./types";
+import {
+    GetResponseI,
+    PageSettingsI,
+    PhotosPropsI,
+    ResponseData,
+} from "./types";
 
 const Photos: FC<PhotosPropsI> = ({}) => {
-    const { response, loading } = useLoad<GetResponseI>({
-        url: photosGetUrl(1, 10),
+    const [pageSettings, setPageSettings] = useState<PageSettingsI>({
+        page:
+            localStorage.getItem("page") === null
+                ? 1
+                : Number(localStorage.getItem("page")),
+        limit:
+            localStorage.getItem("limit") === null
+                ? 10
+                : Number(localStorage.getItem("limit")),
     });
+    const { response, loading } = useLoad<GetResponseI>(
+        {
+            url: photosGetUrl(pageSettings.page, pageSettings.limit),
+        },
+        [pageSettings]
+    );
+
+    useEffect(() => {
+        if (
+            localStorage.getItem("chapter") === null ||
+            localStorage.getItem("chapter") !== "photos"
+        ) {
+            localStorage.setItem("chapter", "photos");
+            localStorage.removeItem("page");
+            localStorage.removeItem("limit");
+        }
+    }, []);
 
     return (
         <Box
@@ -25,6 +55,11 @@ const Photos: FC<PhotosPropsI> = ({}) => {
                 : response?.map((item: ResponseData) => (
                       <PhotoCard key={item.id} {...item} />
                   ))}
+
+            <AppPagination
+                handleChange={setPageSettings}
+                initial={pageSettings}
+            />
         </Box>
     );
 };

@@ -9,3 +9,8 @@ export interface ResponseData {
     url: string
     thumbnailUrl: string
 }
+
+export interface PageSettingsI {
+    page: number
+    limit: number
+}

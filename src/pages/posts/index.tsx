@@ -1,16 +1,21 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import { PostCard, PostCardSkeleton } from "../../components";
 import AppPagination from "../../components/pagination";
 import { useLoad } from "../../hooks/request";
 import { postsGetUrl } from "../../utils/url";
-import { generateFakeArray } from "../../utils/utils";
 import { GetResponseI, PageSettingsI, PostsProps, ResponseData } from "./types";
 
 const Posts: FC<PostsProps> = ({}) => {
     const [pageSettings, setPageSettings] = useState<PageSettingsI>({
-        page: 1,
-        limit: 10,
+        page:
+            localStorage.getItem("page") === null
+                ? 1
+                : Number(localStorage.getItem("page")),
+        limit:
+            localStorage.getItem("limit") === null
+                ? 10
+                : Number(localStorage.getItem("limit")),
     });
     const { response, loading } = useLoad<GetResponseI>(
         {
@@ -18,6 +23,17 @@ const Posts: FC<PostsProps> = ({}) => {
         },
         [pageSettings]
     );
+
+    useEffect(() => {
+        if (
+            localStorage.getItem("chapter") === null ||
+            localStorage.getItem("chapter") !== "posts"
+        ) {
+            localStorage.setItem("chapter", "posts");
+            localStorage.removeItem("page");
+            localStorage.removeItem("limit");
+        }
+    }, []);
 
     return (
         <Box

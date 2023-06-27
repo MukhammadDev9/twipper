@@ -12,8 +12,14 @@ const AppPagination: FC<AppPaginationPropsI> = ({ handleChange, initial }) => {
     const [pageApi, setPageApi] = useState(1);
     const [limitApi, setLimitApi] = useState("10");
 
+    const handleApiChange = (value: number) => {
+        setPageApi(value);
+        localStorage.setItem("page", String(value));
+    };
+
     const handleSelectChange = (e: SelectChangeEvent) => {
         setLimitApi(e.target.value);
+        localStorage.setItem("limit", e.target.value);
     };
 
     useEffect(() => {
@@ -29,12 +35,25 @@ const AppPagination: FC<AppPaginationPropsI> = ({ handleChange, initial }) => {
             my={3}
         >
             <Pagination
+                page={
+                    localStorage.getItem("page") === null
+                        ? initial.page
+                        : Number(localStorage.getItem("page"))
+                }
                 count={10}
-                defaultPage={pageApi}
-                onChange={(e, value) => setPageApi(value)}
+                defaultPage={initial.page}
+                onChange={(e, value) => handleApiChange(value)}
                 color="primary"
             />
-            <Select value={initial.limit} onChange={handleSelectChange}>
+            <Select
+                value={
+                    localStorage.getItem("limit") === null
+                        ? String(initial.limit)
+                        : String(localStorage.getItem("limit"))
+                }
+                defaultValue={initial.limit}
+                onChange={handleSelectChange}
+            >
                 <MenuItem value={10}>10</MenuItem>
                 <MenuItem value={20}>20</MenuItem>
                 <MenuItem value={30}>30</MenuItem>
