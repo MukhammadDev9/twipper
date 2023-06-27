@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { Box, Typography } from "@mui/material";
-import AddButton from "../atoms/addButton";
 import { AppSpeedDial } from "../organisms";
 import { PhotoCardPropsI } from "./types";
 

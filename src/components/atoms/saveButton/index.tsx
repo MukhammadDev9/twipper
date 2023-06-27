@@ -1,8 +1,10 @@
 import { useState, type FC, useContext, useEffect } from "react";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Fab } from "@mui/material";
 import { FavoriteContext, Item } from "../../../context";
+import { PhotoResponseData } from "../../../pages/photos/types";
+import { PostResponseData } from "../../../pages/posts/types";
 import {
     getLocalItem,
     jsonParseString,
@@ -19,24 +21,50 @@ const SaveButton: FC<SaveButtonProps> = ({ item }) => {
     const [saved, setSaved] = useState(false);
 
     const handleAddToFavorites = () => {
-        context?.addToFavorites(item);
+        if (item?.albumId) {
+            context?.addToFavorites(item);
+        } else {
+            context?.addToFavoritesPosts(item);
+        }
         setSaved(true);
     };
 
     const handleRemoveFromFavorites = () => {
-        context?.removeFromFavorites(item.id);
+        if (item?.albumId) {
+            context?.removeFromFavorites(item.id);
+        } else {
+            context?.removeFromFavoritesPosts(item.id);
+        }
         setSaved(false);
     };
 
     useEffect(() => {
-        setLocalItem("photos", jsonStringifyElement(context?.photoFavorites));
+        if (item?.albumId) {
+            setLocalItem(
+                "photos",
+                jsonStringifyElement(context?.photoFavorites)
+            );
+        } else {
+            setLocalItem("posts", jsonStringifyElement(context?.postFavorites));
+        }
     }, [handleAddToFavorites, handleRemoveFromFavorites]);
 
     useEffect(() => {
-        context?.setPhotoFavorites(jsonParseString(getLocalItem("photos")));
-        jsonParseString(getLocalItem("photos")).forEach((element: any) => {
-            element.id === item.id && setSaved(true);
-        });
+        if (item?.albumId) {
+            context?.setPhotoFavorites(jsonParseString(getLocalItem("photos")));
+            jsonParseString(getLocalItem("photos"))?.forEach(
+                (element: PhotoResponseData) => {
+                    element.id === item.id && setSaved(true);
+                }
+            );
+        } else {
+            context?.setPostFavorites(jsonParseString(getLocalItem("posts")));
+            jsonParseString(getLocalItem("posts"))?.forEach(
+                (element: PostResponseData) => {
+                    element.id === item.id && setSaved(true);
+                }
+            );
+        }
     }, []);
 
     return (
@@ -46,7 +74,7 @@ const SaveButton: FC<SaveButtonProps> = ({ item }) => {
             size="small"
             onClick={saved ? handleRemoveFromFavorites : handleAddToFavorites}
         >
-            {saved ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+            {saved ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </Fab>
     );
 };

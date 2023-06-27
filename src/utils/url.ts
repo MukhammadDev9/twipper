@@ -9,3 +9,9 @@ export const photosGetUrl = (page: number = 1, limit: number | string = 10) => `
 export const photosPostUrl: string = '/photos'
 export const photosPutUrl = (id: number) => `/photos/${id}`
 export const photosDeleteUrl = (id: number) => `/photos/${id}`
+
+// Users
+export const usersGetUrl = '/users'
+
+// Comments
+export const commentsGetUrl = (id: number = 1) => `/posts/${id}/comments`

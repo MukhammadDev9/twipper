@@ -4,7 +4,7 @@ export interface PostsProps { }
 
 export interface GetResponseI extends ApiResponseI { }
 
-export interface ResponseData {
+export interface PostResponseData {
     id: number
     title: string
     body: string

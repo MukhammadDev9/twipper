@@ -6,7 +6,7 @@ interface EditButtonProps {}
 
 const EditButton: FC<EditButtonProps> = ({}) => {
     return (
-        <Fab color="secondary" aria-label="edit" size="small">
+        <Fab color="primary" aria-label="edit" size="small">
             <EditIcon />
         </Fab>
     );

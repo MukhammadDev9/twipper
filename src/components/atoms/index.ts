@@ -1,6 +1,6 @@
-import AddButton from "./addButton";
 import EditButton from "./editButton";
 import DeleteButton from "./deleteButton";
 import SaveButton from "./saveButton";
+import SubmitButton from "./submitButton";
 
-export { AddButton, EditButton, DeleteButton, SaveButton }
+export { EditButton, DeleteButton, SaveButton, SubmitButton }

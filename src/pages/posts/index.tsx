@@ -3,35 +3,46 @@ import { Box } from "@mui/material";
 import { PostCard, PostCardSkeleton } from "../../components";
 import AppPagination from "../../components/pagination";
 import { useLoad } from "../../hooks/request";
-import { postsGetUrl } from "../../utils/url";
-import { GetResponseI, PageSettingsI, PostsProps, ResponseData } from "./types";
+import { UserDataI } from "../../utils/types";
+import { postsGetUrl, usersGetUrl } from "../../utils/url";
+import { getLocalItem, removeLocalItem, setLocalItem } from "../../utils/utils";
+import {
+    GetResponseI,
+    PageSettingsI,
+    PostsProps,
+    PostResponseData,
+} from "./types";
 
 const Posts: FC<PostsProps> = ({}) => {
     const [pageSettings, setPageSettings] = useState<PageSettingsI>({
         page:
-            localStorage.getItem("page") === null
-                ? 1
-                : Number(localStorage.getItem("page")),
+            getLocalItem("page") === "null" ? 1 : Number(getLocalItem("page")),
         limit:
-            localStorage.getItem("limit") === null
+            getLocalItem("limit") === "null"
                 ? 10
-                : Number(localStorage.getItem("limit")),
+                : Number(getLocalItem("limit")),
     });
-    const { response, loading } = useLoad<GetResponseI>(
+    const postsRequest = useLoad<GetResponseI>(
         {
             url: postsGetUrl(pageSettings.page, pageSettings.limit),
+        },
+        [pageSettings]
+    );
+    const usersRequest = useLoad(
+        {
+            url: usersGetUrl,
         },
         [pageSettings]
     );
 
     useEffect(() => {
         if (
-            localStorage.getItem("chapter") === null ||
-            localStorage.getItem("chapter") !== "posts"
+            getLocalItem("chapter") === "null" ||
+            getLocalItem("chapter") !== "posts"
         ) {
-            localStorage.setItem("chapter", "posts");
-            localStorage.removeItem("page");
-            localStorage.removeItem("limit");
+            setLocalItem("chapter", "posts");
+            removeLocalItem("page");
+            removeLocalItem("limit");
         }
     }, []);
 
@@ -43,12 +54,16 @@ const Posts: FC<PostsProps> = ({}) => {
             flexDirection={"column"}
             alignItems={"center"}
         >
-            {loading
+            {postsRequest.loading
                 ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
                       <PostCardSkeleton key={item} />
                   ))
-                : response?.map((item: ResponseData) => (
-                      <PostCard key={item.id} {...item} />
+                : postsRequest.response?.map((item: PostResponseData) => (
+                      <PostCard
+                          key={item.id}
+                          item={item}
+                          userList={usersRequest.response}
+                      />
                   ))}
             <AppPagination
                 handleChange={setPageSettings}

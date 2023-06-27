@@ -1,6 +1,7 @@
+import { PostResponseData } from "../../pages/posts/types";
+import { UserDataI } from "../../utils/types";
+
 export interface PostCardPropsI {
-    id: number
-    title: string
-    body: string
-    userId: number
+    item: PostResponseData
+    userList: UserDataI[]
 }

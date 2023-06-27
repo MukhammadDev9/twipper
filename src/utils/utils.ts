@@ -12,6 +12,10 @@ export const setLocalItem = (name: string, item: any) => {
     return localStorage.setItem(name, item)
 }
 
+export const removeLocalItem = (name: string) => {
+    return localStorage.removeItem(name)
+}
+
 export const jsonParseString = (item: string) => {
     return JSON.parse(item)
 }

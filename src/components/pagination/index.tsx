@@ -6,6 +6,7 @@ import {
     Select,
     SelectChangeEvent,
 } from "@mui/material";
+import { getLocalItem, setLocalItem } from "../../utils/utils";
 import { AppPaginationPropsI } from "./types";
 
 const AppPagination: FC<AppPaginationPropsI> = ({ handleChange, initial }) => {
@@ -14,12 +15,12 @@ const AppPagination: FC<AppPaginationPropsI> = ({ handleChange, initial }) => {
 
     const handleApiChange = (value: number) => {
         setPageApi(value);
-        localStorage.setItem("page", String(value));
+        setLocalItem("page", value);
     };
 
     const handleSelectChange = (e: SelectChangeEvent) => {
         setLimitApi(e.target.value);
-        localStorage.setItem("limit", e.target.value);
+        setLocalItem("limit", e.target.value);
     };
 
     useEffect(() => {
@@ -36,9 +37,9 @@ const AppPagination: FC<AppPaginationPropsI> = ({ handleChange, initial }) => {
         >
             <Pagination
                 page={
-                    localStorage.getItem("page") === null
+                    getLocalItem("page") === "null"
                         ? initial.page
-                        : Number(localStorage.getItem("page"))
+                        : Number(getLocalItem("page"))
                 }
                 count={10}
                 defaultPage={initial.page}
@@ -47,17 +48,18 @@ const AppPagination: FC<AppPaginationPropsI> = ({ handleChange, initial }) => {
             />
             <Select
                 value={
-                    localStorage.getItem("limit") === null
+                    getLocalItem("limit") === "null"
                         ? String(initial.limit)
-                        : String(localStorage.getItem("limit"))
+                        : getLocalItem("limit")
                 }
                 defaultValue={initial.limit}
                 onChange={handleSelectChange}
             >
                 <MenuItem value={10}>10</MenuItem>
                 <MenuItem value={20}>20</MenuItem>
-                <MenuItem value={30}>30</MenuItem>
-                <MenuItem value={0}>все</MenuItem>
+                <MenuItem value={50}>50</MenuItem>
+                <MenuItem value={100}>100</MenuItem>
+                <MenuItem value={0}>Все</MenuItem>
             </Select>
         </Box>
     );
