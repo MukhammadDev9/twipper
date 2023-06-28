@@ -1,22 +1,15 @@
-import { FC, useEffect, useState } from "react";
+import { type FC } from "react";
 import { Box, Paper, Typography, Skeleton } from "@mui/material";
-import { UserDataI } from "../../utils/types";
+import { useLoad } from "../../hooks/request";
+import { userById } from "../../utils/url";
 import { SaveButton } from "../atoms";
 import { CommentAction, DeleteAction, EditAction } from "../organisms";
 import { PostCardPropsI } from "./types";
 
-const PostCard: FC<PostCardPropsI> = ({
-    item,
-    userList,
-    request,
-    usersRequest,
-}) => {
-    const [userData, setUserData] = useState<UserDataI>({});
-    useEffect(() => {
-        userList?.forEach((user) => {
-            item.userId === user.id && setUserData(user);
-        });
-    }, []);
+const PostCard: FC<PostCardPropsI> = (props) => {
+    const { response, request } = useLoad({
+        url: userById(props.item?.userId),
+    });
 
     return (
         <Box sx={{ my: 2, maxWidth: 600, width: "100%" }}>
@@ -27,23 +20,23 @@ const PostCard: FC<PostCardPropsI> = ({
                     px: 3,
                 }}
             >
-                {userData.name === undefined ? (
-                    <Skeleton
-                        variant="rounded"
-                        width={200}
-                        height={20}
-                        sx={{ my: 1 }}
-                    />
-                ) : (
-                    <Typography variant="h6" color={"#404040"} mb={1}>
-                        {userData.name}
-                    </Typography>
-                )}
-                {item.body && (
+                <Typography variant="h6" color={"#404040"} mb={1}>
+                    {response?.name ? (
+                        response.name
+                    ) : (
+                        <Skeleton
+                            variant="rounded"
+                            width={200}
+                            height={20}
+                            sx={{ my: 1 }}
+                        />
+                    )}
+                </Typography>
+                {props.item?.body && (
                     <Typography
                         variant="body2"
                         component={"div"}
-                        dangerouslySetInnerHTML={{ __html: item.body }}
+                        dangerouslySetInnerHTML={{ __html: props.item?.body }}
                     />
                 )}
                 <Box
@@ -58,11 +51,11 @@ const PostCard: FC<PostCardPropsI> = ({
                         justifyContent="space-between"
                         columnGap={2}
                     >
-                        <SaveButton item={item} />
-                        {userData.name && (
+                        <SaveButton item={props.item} />
+                        {response?.name && (
                             <CommentAction
-                                postId={item.id}
-                                username={userData.name}
+                                postId={props.item?.id}
+                                username={response?.name}
                             />
                         )}
                     </Box>
@@ -71,21 +64,21 @@ const PostCard: FC<PostCardPropsI> = ({
                         justifyContent="space-between"
                         columnGap={2}
                     >
-                        {userData.id && userData.name && (
+                        {response?.id && response?.name && (
                             <EditAction
-                                item={item}
+                                item={props.item}
                                 forPage="posts"
                                 userData={{
-                                    id: userData.id,
-                                    name: userData.name,
+                                    id: response.id,
+                                    name: response.name,
                                 }}
                             />
                         )}
                         <DeleteAction
                             forPage="posts"
-                            id={item.id}
-                            request={request}
-                            usersRequest={usersRequest}
+                            id={response?.id}
+                            request={props.request}
+                            usersRequest={request}
                         />
                     </Box>
                 </Box>

@@ -7,7 +7,7 @@ import { EditButton } from "../../atoms";
 import AppEditDrawer from "../../editDrawer";
 
 interface EditActionProps {
-    item: PostResponseData & PhotoResponseData & AlbumResponseData;
+    item: (PostResponseData & PhotoResponseData & AlbumResponseData) | null;
     forPage: string;
     userData: {
         id: number;

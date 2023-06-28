@@ -2,9 +2,8 @@ import { useState, type FC, useEffect } from "react";
 import { Box } from "@mui/material";
 import { AlbumCard, AlbumCardSkeleton } from "../../components";
 import { AppPagination } from "../../components";
-import SearchBar from "../../components/searchBar";
 import { useLoad } from "../../hooks/request";
-import { albumsGetUrl, usersGetUrl } from "../../utils/url";
+import { albumsGetUrl } from "../../utils/url";
 import { getLocalItem, removeLocalItem, setLocalItem } from "../../utils/utils";
 import { AlbumResponseData, AlbumsProps, PageSettingsI } from "./types";
 
@@ -20,12 +19,6 @@ const Albums: FC<AlbumsProps> = ({}) => {
     const albumsRequest = useLoad(
         {
             url: albumsGetUrl(pageSettings.page, pageSettings.limit),
-        },
-        [pageSettings]
-    );
-    const usersRequest = useLoad(
-        {
-            url: usersGetUrl,
         },
         [pageSettings]
     );
@@ -49,7 +42,6 @@ const Albums: FC<AlbumsProps> = ({}) => {
             flexDirection={"column"}
             alignItems={"center"}
         >
-            <SearchBar />
             {albumsRequest.loading
                 ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
                       <AlbumCardSkeleton key={item} />
@@ -58,9 +50,7 @@ const Albums: FC<AlbumsProps> = ({}) => {
                       <AlbumCard
                           key={item.id}
                           item={item}
-                          userList={usersRequest.response}
                           request={albumsRequest.request}
-                          usersRequest={usersRequest.request}
                       />
                   ))}
             <AppPagination

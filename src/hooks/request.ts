@@ -4,7 +4,7 @@ import { Axios } from "../utils/axiosConfig";
 export interface ApiResponseI {
     loading?: boolean
     response?: any
-    request: () => void
+    request: (AxiosOptions?: any) => void
 }
 
 export const useGetRequest = <T>(options = {}) =>
@@ -26,7 +26,7 @@ export const useRequest = <T>(options: {}): ApiResponseI => {
     const [loading, setLoading] = useState<boolean>(false)
     const [response, setResponse] = useState<any>()
 
-    const request = async (overrideOptions = {}) => {
+    async function request(overrideOptions = {}) {
         setLoading(true)
         try {
             const { data } = await Axios({ ...options, ...overrideOptions })

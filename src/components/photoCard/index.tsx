@@ -15,7 +15,7 @@ const PhotoCard: FC<PhotoCardPropsI> = ({ item }) => {
                 flexDirection: "column",
             }}
         >
-            {item ? (
+            {item.thumbnailUrl ? (
                 <Box
                     position={"relative"}
                     maxWidth={150}

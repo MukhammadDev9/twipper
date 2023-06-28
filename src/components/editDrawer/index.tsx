@@ -9,7 +9,7 @@ interface AppDrawerProps {
     forPage: string;
     open: boolean;
     toggleClose: () => void;
-    item: PostResponseData & PhotoResponseData & AlbumResponseData;
+    item: (PostResponseData & PhotoResponseData & AlbumResponseData) | null;
     userData: {
         id: number;
         name: string;

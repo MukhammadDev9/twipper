@@ -2,9 +2,8 @@ import { FC, useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import { PostCard, PostCardSkeleton } from "../../components";
 import { AppPagination } from "../../components";
-import SearchBar from "../../components/searchBar";
 import { useLoad } from "../../hooks/request";
-import { postsGetUrl, usersGetUrl } from "../../utils/url";
+import { postsGetUrl } from "../../utils/url";
 import { getLocalItem, removeLocalItem, setLocalItem } from "../../utils/utils";
 import { PageSettingsI, PostsProps, PostResponseData } from "./types";
 
@@ -20,12 +19,6 @@ const Posts: FC<PostsProps> = ({}) => {
     const postsRequest = useLoad(
         {
             url: postsGetUrl(pageSettings.page, pageSettings.limit),
-        },
-        [pageSettings]
-    );
-    const usersRequest = useLoad(
-        {
-            url: usersGetUrl,
         },
         [pageSettings]
     );
@@ -49,7 +42,6 @@ const Posts: FC<PostsProps> = ({}) => {
             flexDirection={"column"}
             alignItems={"center"}
         >
-            <SearchBar />
             {postsRequest.loading
                 ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
                       <PostCardSkeleton key={item} />
@@ -58,9 +50,7 @@ const Posts: FC<PostsProps> = ({}) => {
                       <PostCard
                           key={item.id}
                           item={item}
-                          userList={usersRequest.response}
                           request={postsRequest.request}
-                          usersRequest={usersRequest.request}
                       />
                   ))}
             <AppPagination

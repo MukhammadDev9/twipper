@@ -1,28 +1,20 @@
-import { useEffect, type FC, useState } from "react";
+import { type FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Paper, Skeleton, Typography } from "@mui/material";
-import { UserDataI } from "../../utils/types";
+import { useLoad } from "../../hooks/request";
+import { userById } from "../../utils/url";
 import { SaveButton } from "../atoms";
 import { EditAction, DeleteAction } from "../organisms";
 import { AlbumCardProps } from "./types";
 
-const AlbumCard: FC<AlbumCardProps> = ({
-    item,
-    userList,
-    request,
-    usersRequest,
-}) => {
-    const [userData, setUserData] = useState<UserDataI>({});
+const AlbumCard: FC<AlbumCardProps> = (props) => {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        userList?.forEach((user) => {
-            item.userId === user.id && setUserData(user);
-        });
-    }, []);
+    const { response, request } = useLoad({
+        url: userById(props.item?.userId),
+    });
 
     const handleClick = () => {
-        navigate("/albums/" + item.id);
+        navigate("/albums/" + props.item?.id);
     };
 
     return (
@@ -34,18 +26,18 @@ const AlbumCard: FC<AlbumCardProps> = ({
                     px: 3,
                 }}
             >
-                {userData?.name === undefined ? (
-                    <Skeleton
-                        variant="rounded"
-                        width={200}
-                        height={20}
-                        sx={{ my: 1 }}
-                    />
-                ) : (
-                    <Typography variant="h6" color={"#404040"} mb={1}>
-                        {userData?.name}
-                    </Typography>
-                )}
+                <Typography variant="h6" color={"#404040"} mb={1}>
+                    {response?.name ? (
+                        response.name
+                    ) : (
+                        <Skeleton
+                            variant="rounded"
+                            width={200}
+                            height={20}
+                            sx={{ my: 1 }}
+                        />
+                    )}
+                </Typography>
                 <Typography
                     variant="subtitle1"
                     sx={{ cursor: "pointer" }}
@@ -53,7 +45,7 @@ const AlbumCard: FC<AlbumCardProps> = ({
                     color="secondary"
                     display={"inline"}
                 >
-                    {item.title}
+                    {props.item?.title}
                 </Typography>
                 <Box
                     display="flex"
@@ -67,28 +59,28 @@ const AlbumCard: FC<AlbumCardProps> = ({
                         justifyContent="space-between"
                         columnGap={2}
                     >
-                        <SaveButton item={item} />
+                        <SaveButton item={props.item} />
                     </Box>
                     <Box
                         display="flex"
                         justifyContent="space-between"
                         columnGap={2}
                     >
-                        {userData.id && userData.name && (
+                        {/* {response?.id && response?.name && (
                             <EditAction
-                                item={item}
+                                item={props.item}
                                 forPage="albums"
                                 userData={{
-                                    id: userData.id,
-                                    name: userData.name,
+                                    id: response.id,
+                                    name: response.name,
                                 }}
                             />
-                        )}
+                        )} */}
                         <DeleteAction
                             forPage="albums"
-                            id={item.id}
-                            request={request}
-                            usersRequest={usersRequest}
+                            id={props.item?.id}
+                            request={props.request}
+                            usersRequest={request}
                         />
                     </Box>
                 </Box>

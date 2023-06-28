@@ -3,20 +3,9 @@ import { PhotoResponseData } from "../../pages/photos/types";
 import { PostResponseData } from "../../pages/posts/types";
 
 export interface PostsFormProps {
-    item: PostResponseData & PhotoResponseData & AlbumResponseData;
+    item: PostResponseData & PhotoResponseData & AlbumResponseData | null;
     userData: {
         id: number
         name: string
     }
-}
-
-export interface PostsDetailsI {
-    name: string
-    body: string
-    userId: number
-}
-
-export interface PostsDetailsErrorI {
-    name: boolean
-    body: boolean
 }

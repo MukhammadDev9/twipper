@@ -1,75 +1,73 @@
-import { useState, type FC, useEffect } from "react";
-import { Box, FormGroup, TextField } from "@mui/material";
-import { SubmitButton } from "../atoms";
-import { PostsDetailsErrorI, PostsDetailsI, PostsFormProps } from "./types";
+import { useEffect, type FC } from "react";
+import { Button, Form, Input, Space, message } from "antd";
+import { usePostRequest, usePutRequest } from "../../hooks/request";
+import { postsPostUrl, postsPutUrl } from "../../utils/url";
+import { PostsFormProps } from "./types";
 
 const PostsForm: FC<PostsFormProps> = ({ item = null, userData }) => {
-    const [details, setDetails] = useState<PostsDetailsI>({
-        name: "",
-        body: "",
-        userId: userData.id,
+    const postRequest = usePostRequest({ url: postsPostUrl });
+    const putRequest = usePutRequest({ url: postsPutUrl(userData.id) });
+    const [form] = Form.useForm();
+
+    const formLabel = (title: string, name: string) => ({
+        label: title,
+        name: name,
+        rules: [
+            {
+                required: true,
+                message: `Please input ${title}!`,
+            },
+        ],
     });
-    const [detailsError, setDetailsError] = useState<PostsDetailsErrorI>({
-        name: false,
-        body: false,
+
+    const formInput = (name: string) => ({
+        placeholder: "Type here",
+        name: name,
     });
 
-    useEffect(() => {
-        if (item !== null && item?.body)
-            setDetails({ ...details, name: userData.name, body: item?.body });
-    }, []);
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (details.name.length === 0) {
-            return setDetailsError({ ...detailsError, name: true });
-        } else if (details.body.length === 0) {
-            return setDetailsError({ ...detailsError, body: true });
+    const onFinish = async (values: any) => {
+        if (item !== null) {
+            await putRequest.request({
+                body: values,
+            });
         } else {
-            console.log("submited");
+            await postRequest.request({
+                data: values,
+            });
+        }
+        message.success("Success!");
+    };
+
+    const onFinishFailed = ({ errorFields }: { errorFields: any }) => {
+        if (errorFields[0].name[0] === "image") {
+            return message.error("Please upload Image!");
+        } else {
+            return message.error(errorFields[0].errors[0]);
         }
     };
 
+    useEffect(() => {
+        if (item !== null) form.setFieldsValue(item);
+    }, []);
+
     return (
-        <Box
-            component="form"
-            noValidate
-            autoComplete="off"
-            onSubmit={handleSubmit}
-        >
-            <FormGroup sx={{ mb: 2 }}>
-                <TextField
-                    label={"Name"}
-                    variant="outlined"
-                    autoComplete="off"
-                    size={"small"}
-                    required
-                    fullWidth
-                    error={detailsError.name}
-                    value={details.name}
-                    onChange={(e: any) =>
-                        setDetails({ ...details, name: e.target.value })
-                    }
-                />
-            </FormGroup>
-            <FormGroup sx={{ mb: 2 }}>
-                <TextField
-                    label={"Body"}
-                    variant="outlined"
-                    autoComplete="off"
-                    size={"small"}
-                    required
-                    fullWidth
-                    error={detailsError.body}
-                    value={details.body}
-                    onChange={(e: any) =>
-                        setDetails({ ...details, body: e.target.value })
-                    }
-                />
-            </FormGroup>
-            <SubmitButton />
-        </Box>
+        <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
+            <Space style={{ display: "flex", flexDirection: "column" }}>
+                <Form.Item {...formLabel("Title", "title")}>
+                    <Input {...formInput("title")} />
+                </Form.Item>
+                <Form.Item {...formLabel("Body", "body")}>
+                    <Input {...formInput("body")} />
+                </Form.Item>
+            </Space>
+            <Button
+                htmlType="submit"
+                type="primary"
+                loading={postRequest.loading || putRequest.loading}
+            >
+                {item !== null ? "Edit" : "Submit"}
+            </Button>
+        </Form>
     );
 };
 
