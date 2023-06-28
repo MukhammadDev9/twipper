@@ -15,10 +15,7 @@ const AppSpeedDial: FC<SpeedDialProps> = ({ item }) => {
             icon={<MoreVertIcon />}
             direction="left"
         >
-            <SpeedDialAction
-                icon={<DeleteButton item={item} />}
-                tooltipTitle="Delete"
-            />
+            <SpeedDialAction icon={<DeleteButton />} tooltipTitle="Delete" />
             <SpeedDialAction icon={<EditButton />} tooltipTitle="Edit" />
             <SpeedDialAction
                 icon={<SaveButton item={item} />}

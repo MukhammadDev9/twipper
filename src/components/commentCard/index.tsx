@@ -1,19 +1,20 @@
 import type { FC } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Paper } from "@mui/material";
 import { CommentCardProps } from "./types";
 
 const CommentCard: FC<CommentCardProps> = ({ item }) => {
     return (
         <Box
             sx={{
-                my: 2,
+                my: 1,
                 width: "100%",
-                borderBottom: "2px solid #eeeeee",
             }}
         >
-            <Typography>{item.name}</Typography>
-            <Typography>{item.email}</Typography>
-            <Typography>{item.body}</Typography>
+            <Paper sx={{ mb: 2, py: 1, px: 2 }}>
+                <Typography variant="subtitle1">{item.name}</Typography>
+                <Typography variant="subtitle2">{item.email}</Typography>
+                <Typography variant="inherit">{item.body}</Typography>
+            </Paper>
         </Box>
     );
 };

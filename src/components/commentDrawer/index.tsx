@@ -1,6 +1,5 @@
 import type { FC } from "react";
-import { Box, Drawer } from "@mui/material";
-import { Item } from "../../context";
+import { Box, Drawer, Typography } from "@mui/material";
 import { useLoad } from "../../hooks/request";
 import { commentsGetUrl } from "../../utils/url";
 import CommentCard from "../commentCard";
@@ -25,6 +24,14 @@ const AppCommentDrawer: FC<AppCommentDrawerProps> = ({
     return (
         <Drawer anchor="right" open={open} onClose={toggleClose}>
             <Box sx={{ width: 370, px: 3, pt: 3 }}>
+                <Typography
+                    variant="h5"
+                    fontWeight={500}
+                    component={"p"}
+                    gutterBottom
+                >
+                    Comments
+                </Typography>
                 {commentRequest.loading
                     ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: number) => (
                           <CommentSkeleton key={item} />

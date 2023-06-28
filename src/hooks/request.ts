@@ -11,16 +11,16 @@ export const useGetRequest = <T>(options = {}) =>
     useRequest({ method: 'GET', ...options })
 
 export const usePostRequest = <T>(options = {}) =>
-    useRequest({ method: 'GET', ...options })
+    useRequest({ method: 'POST', ...options })
 
 export const usePutRequest = <T>(options = {}) =>
-    useRequest({ method: 'GET', ...options })
+    useRequest({ method: 'PUT', ...options })
 
 export const usePatchRequest = <T>(options = {}) =>
-    useRequest({ method: 'GET', ...options })
+    useRequest({ method: 'PATCH', ...options })
 
 export const useDeleteRequest = <T>(options = {}) =>
-    useRequest({ method: 'GET', ...options })
+    useRequest({ method: 'DELETE', ...options })
 
 export const useRequest = <T>(options: {}): ApiResponseI => {
     const [loading, setLoading] = useState<boolean>(false)

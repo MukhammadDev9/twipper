@@ -3,11 +3,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Fab } from "@mui/material";
 import { Item } from "../../../context";
 
-interface DeleteButtonProps {
-    item: Item;
-}
+interface DeleteButtonProps {}
 
-const DeleteButton: FC<DeleteButtonProps> = ({ item }) => {
+const DeleteButton: FC<DeleteButtonProps> = ({}) => {
     return (
         <Fab
             sx={{

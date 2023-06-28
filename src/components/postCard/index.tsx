@@ -1,13 +1,19 @@
 import { FC, useEffect, useState } from "react";
-import { Box } from "@mui/material";
-import { Typography } from "antd";
+import { Box, Paper } from "@mui/material";
+import { Typography } from "@mui/material";
 import { UserDataI } from "../../utils/types";
-import { DeleteButton, SaveButton } from "../atoms";
+import { SaveButton } from "../atoms";
 import CommentAction from "../organisms/commentAction";
+import DeleteAction from "../organisms/deleteAction";
 import EditAction from "../organisms/editAction";
 import { PostCardPropsI } from "./types";
 
-const PostCard: FC<PostCardPropsI> = ({ item, userList }) => {
+const PostCard: FC<PostCardPropsI> = ({
+    item,
+    userList,
+    request,
+    usersRequest,
+}) => {
     const [userData, setUserData] = useState<UserDataI>({});
     useEffect(() => {
         userList?.forEach((user) => {
@@ -16,54 +22,61 @@ const PostCard: FC<PostCardPropsI> = ({ item, userList }) => {
     }, []);
 
     return (
-        <Box
-            sx={{ my: 2, maxWidth: 600, width: "100%" }}
-            border={"2px solid blue"}
-            py={1}
-            px={3}
-        >
-            <Typography>User id: {userData.id}</Typography>
-            <Typography>Post user id: {item.userId}</Typography>
-            <Typography>Post id: {item.id}</Typography>
-            <Typography>{item.title}</Typography>
-            {item.body && (
-                <div dangerouslySetInnerHTML={{ __html: item.body }} />
-            )}
-            <Box
+        <Box sx={{ my: 2, maxWidth: 600, width: "100%" }}>
+            <Paper
+                elevation={3}
                 sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    columnGap: 2,
-                    my: 1,
+                    py: 1,
+                    px: 3,
                 }}
             >
+                <Typography variant="h6">{userData.name}</Typography>
+                {item.body && (
+                    <Typography variant="subtitle1">
+                        <div dangerouslySetInnerHTML={{ __html: item.body }} />
+                    </Typography>
+                )}
                 <Box
                     sx={{
                         display: "flex",
                         justifyContent: "space-between",
                         columnGap: 2,
+                        my: 1,
                     }}
                 >
-                    <SaveButton item={item} />
-                    <CommentAction postId={item.id} />
-                </Box>
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        columnGap: 2,
-                    }}
-                >
-                    {userData.id && (
-                        <EditAction
-                            item={item}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            columnGap: 2,
+                        }}
+                    >
+                        <SaveButton item={item} />
+                        <CommentAction postId={item.id} />
+                    </Box>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            columnGap: 2,
+                        }}
+                    >
+                        {userData.id && (
+                            <EditAction
+                                item={item}
+                                forPage="posts"
+                                userDataId={userData.id}
+                            />
+                        )}
+                        <DeleteAction
                             forPage="posts"
-                            userDataId={userData.id}
+                            id={item.id}
+                            request={request}
+                            usersRequest={usersRequest}
                         />
-                    )}
-                    <DeleteButton item={item} />
+                    </Box>
                 </Box>
-            </Box>
+            </Paper>
         </Box>
     );
 };
