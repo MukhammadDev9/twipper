@@ -1,17 +1,22 @@
+import { AlbumResponseData } from "../../pages/albums/types";
+import { PhotoResponseData } from "../../pages/photos/types";
 import { PostResponseData } from "../../pages/posts/types";
 
 export interface PostsFormProps {
-    item: PostResponseData;
-    userDataId: number
+    item: PostResponseData & PhotoResponseData & AlbumResponseData;
+    userData: {
+        id: number
+        name: string
+    }
 }
 
 export interface PostsDetailsI {
-    title: string
+    name: string
     body: string
     userId: number
 }
 
 export interface PostsDetailsErrorI {
-    title: boolean
+    name: boolean
     body: boolean
 }

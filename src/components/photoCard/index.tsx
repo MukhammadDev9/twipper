@@ -1,37 +1,40 @@
 import { FC } from "react";
-import { Box, Typography } from "@mui/material";
-import { AppSpeedDial } from "../organisms";
+import { Box, Paper, Skeleton } from "@mui/material";
 import { PhotoCardPropsI } from "./types";
 
 const PhotoCard: FC<PhotoCardPropsI> = ({ item }) => {
     return (
-        <Box
-            my={2}
-            px={0}
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            flexDirection={"column"}
+        <Paper
+            elevation={4}
+            sx={{
+                m: 1,
+                p: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+            }}
         >
-            <Box
-                position={"relative"}
-                maxWidth={350}
-                width="100%"
-                maxHeight={350}
-                height="100%"
-            >
-                <img
-                    src={item.url}
-                    alt={item.title}
-                    loading="lazy"
-                    style={{ objectFit: "cover" }}
+            {item ? (
+                <Box
+                    position={"relative"}
+                    maxWidth={150}
                     width="100%"
+                    maxHeight={150}
                     height="100%"
-                />
-            </Box>
-            <Typography>{item.title}</Typography>
-            <AppSpeedDial item={item} />
-        </Box>
+                >
+                    <img
+                        src={item.thumbnailUrl}
+                        alt={item.title}
+                        style={{ objectFit: "cover" }}
+                        width="100%"
+                        height="100%"
+                    />
+                </Box>
+            ) : (
+                <Skeleton variant="rounded" width={150} height={150} />
+            )}
+        </Paper>
     );
 };
 

@@ -47,6 +47,7 @@ const AppPagination: FC<AppPaginationPropsI> = ({ handleChange, initial }) => {
                 color="primary"
             />
             <Select
+                size="small"
                 value={
                     getLocalItem("limit") === "null"
                         ? String(initial.limit)

@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
 import { PhotoCard, PhotoCardSkeleton } from "../../components";
-import AppPagination from "../../components/pagination";
+import { AppPagination } from "../../components";
 import { useLoad } from "../../hooks/request";
 import { photosGetUrl } from "../../utils/url";
 import { getLocalItem, removeLocalItem, setLocalItem } from "../../utils/utils";
@@ -13,6 +14,7 @@ import {
 } from "./types";
 
 const Photos: FC<PhotosPropsI> = ({}) => {
+    const { id } = useParams();
     const [pageSettings, setPageSettings] = useState<PageSettingsI>({
         page:
             getLocalItem("page") === "null" ? 1 : Number(getLocalItem("page")),
@@ -23,7 +25,7 @@ const Photos: FC<PhotosPropsI> = ({}) => {
     });
     const { response, loading } = useLoad<GetResponseI>(
         {
-            url: photosGetUrl(pageSettings.page, pageSettings.limit),
+            url: photosGetUrl(id, pageSettings.page, pageSettings.limit),
         },
         [pageSettings]
     );
@@ -43,9 +45,9 @@ const Photos: FC<PhotosPropsI> = ({}) => {
         <Box
             width="100%"
             display={"flex"}
-            justifyContent={"center"}
-            flexDirection={"column"}
+            justifyContent={"flex-start"}
             alignItems={"center"}
+            flexWrap={"wrap"}
         >
             {loading
                 ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
@@ -54,7 +56,6 @@ const Photos: FC<PhotosPropsI> = ({}) => {
                 : response?.map((item: PhotoResponseData) => (
                       <PhotoCard key={item.id} item={item} />
                   ))}
-
             <AppPagination
                 handleChange={setPageSettings}
                 initial={pageSettings}

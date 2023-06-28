@@ -11,9 +11,17 @@ const Footer: FC<FooterPropsI> = ({}) => {
             height={60}
             bgcolor={"#ffffff"}
         >
-            <Typography>
+            <Typography variant="body1" fontWeight={500}>
                 Made by:{" "}
-                <a href="https://github.com/MukhammadDev9">mukhammadDev</a>
+                <Typography
+                    color="primary"
+                    component={"a"}
+                    href="https://github.com/MukhammadDev9"
+                    target="_blank"
+                    fontWeight={500}
+                >
+                    mukhammadDev
+                </Typography>
             </Typography>
         </Box>
     );

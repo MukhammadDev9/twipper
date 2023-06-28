@@ -1,17 +1,21 @@
 import { useState, type FC } from "react";
 import { Box } from "@mui/material";
+import { AlbumResponseData } from "../../../pages/albums/types";
 import { PhotoResponseData } from "../../../pages/photos/types";
 import { PostResponseData } from "../../../pages/posts/types";
 import { EditButton } from "../../atoms";
 import AppEditDrawer from "../../editDrawer";
 
 interface EditActionProps {
-    item: PostResponseData & PhotoResponseData;
+    item: PostResponseData & PhotoResponseData & AlbumResponseData;
     forPage: string;
-    userDataId: number;
+    userData: {
+        id: number;
+        name: string;
+    };
 }
 
-const EditAction: FC<EditActionProps> = ({ item, forPage, userDataId }) => {
+const EditAction: FC<EditActionProps> = ({ item, forPage, userData }) => {
     const [open, setOpen] = useState<boolean>(false);
 
     const toggleClose = () => {
@@ -28,7 +32,7 @@ const EditAction: FC<EditActionProps> = ({ item, forPage, userDataId }) => {
                 open={open}
                 toggleClose={toggleClose}
                 item={item}
-                userDataId={userDataId}
+                userData={userData}
             />
         </Box>
     );

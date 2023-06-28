@@ -1,22 +1,29 @@
-import { FC, useEffect, useState } from "react";
-import { Box, Paper, Typography, Skeleton } from "@mui/material";
+import { useEffect, type FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Box, Paper, Skeleton, Typography } from "@mui/material";
 import { UserDataI } from "../../utils/types";
 import { SaveButton } from "../atoms";
-import { CommentAction, DeleteAction, EditAction } from "../organisms";
-import { PostCardPropsI } from "./types";
+import { EditAction, DeleteAction } from "../organisms";
+import { AlbumCardProps } from "./types";
 
-const PostCard: FC<PostCardPropsI> = ({
+const AlbumCard: FC<AlbumCardProps> = ({
     item,
     userList,
     request,
     usersRequest,
 }) => {
     const [userData, setUserData] = useState<UserDataI>({});
+    const navigate = useNavigate();
+
     useEffect(() => {
         userList?.forEach((user) => {
             item.userId === user.id && setUserData(user);
         });
     }, []);
+
+    const handleClick = () => {
+        navigate("/albums/" + item.id);
+    };
 
     return (
         <Box sx={{ my: 2, maxWidth: 600, width: "100%" }}>
@@ -27,7 +34,7 @@ const PostCard: FC<PostCardPropsI> = ({
                     px: 3,
                 }}
             >
-                {userData.name === undefined ? (
+                {userData?.name === undefined ? (
                     <Skeleton
                         variant="rounded"
                         width={200}
@@ -36,16 +43,18 @@ const PostCard: FC<PostCardPropsI> = ({
                     />
                 ) : (
                     <Typography variant="h6" color={"#404040"} mb={1}>
-                        {userData.name}
+                        {userData?.name}
                     </Typography>
                 )}
-                {item.body && (
-                    <Typography
-                        variant="body2"
-                        component={"div"}
-                        dangerouslySetInnerHTML={{ __html: item.body }}
-                    />
-                )}
+                <Typography
+                    variant="subtitle1"
+                    sx={{ cursor: "pointer" }}
+                    onClick={handleClick}
+                    color="secondary"
+                    display={"inline"}
+                >
+                    {item.title}
+                </Typography>
                 <Box
                     display="flex"
                     justifyContent="space-between"
@@ -59,12 +68,6 @@ const PostCard: FC<PostCardPropsI> = ({
                         columnGap={2}
                     >
                         <SaveButton item={item} />
-                        {userData.name && (
-                            <CommentAction
-                                postId={item.id}
-                                username={userData.name}
-                            />
-                        )}
                     </Box>
                     <Box
                         display="flex"
@@ -74,7 +77,7 @@ const PostCard: FC<PostCardPropsI> = ({
                         {userData.id && userData.name && (
                             <EditAction
                                 item={item}
-                                forPage="posts"
+                                forPage="albums"
                                 userData={{
                                     id: userData.id,
                                     name: userData.name,
@@ -82,7 +85,7 @@ const PostCard: FC<PostCardPropsI> = ({
                             />
                         )}
                         <DeleteAction
-                            forPage="posts"
+                            forPage="albums"
                             id={item.id}
                             request={request}
                             usersRequest={usersRequest}
@@ -94,4 +97,4 @@ const PostCard: FC<PostCardPropsI> = ({
     );
 };
 
-export default PostCard;
+export default AlbumCard;

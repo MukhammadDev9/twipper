@@ -10,11 +10,18 @@ const Header: FC<HeaderPropsI> = ({}) => {
                     display: "flex",
                     alignItems: "center",
                     width: "100%",
-                    bgcolor: "#fff",
                     py: 2,
+                    pl: 2,
+                    mb: 2,
                 }}
             >
-                <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+                <Typography
+                    variant="h4"
+                    component={"h1"}
+                    fontWeight={700}
+                    letterSpacing={"1px"}
+                    color={"primary"}
+                >
                     Twipper
                 </Typography>
             </Box>

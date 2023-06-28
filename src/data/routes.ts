@@ -12,8 +12,8 @@ export const routes: route[] = [
     },
     {
         id: 2,
-        path: '/photos',
-        label: 'Photos',
+        path: '/albums',
+        label: 'Albums',
     },
     {
         id: 3,

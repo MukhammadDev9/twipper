@@ -2,6 +2,8 @@ import { FC, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
     Box,
+    Paper,
+    Button,
     List,
     ListItem,
     ListItemButton,
@@ -21,41 +23,46 @@ const Sidebar: FC<SidebarPropsI> = ({}) => {
 
     useEffect(() => {
         routes.forEach((route) => {
-            route.path === window.location.pathname &&
+            if (window.location.pathname.includes(route.path))
                 setSelectedItem(route.id);
         });
     }, []);
 
     return (
         <Box sx={{ height: "100%" }}>
-            <List sx={{ display: "grid", rowGap: ".5rem", width: "100%" }}>
-                {routes.map((route) => (
-                    <ListItem
-                        disablePadding
-                        key={route.id}
-                        sx={{ width: "100%" }}
-                        onClick={() => handleSelectItem(route.id)}
-                    >
+            <Paper elevation={0}>
+                <List
+                    sx={{
+                        display: "grid",
+                        rowGap: ".5rem",
+                        width: "90%",
+                        px: 2,
+                    }}
+                >
+                    {routes.map((route) => (
                         <Link
+                            key={route.id}
                             to={route.path}
-                            style={{ textDecoration: "none", width: "100%" }}
+                            onClick={() => handleSelectItem(route.id)}
                         >
-                            <ListItemButton
-                                selected={selectedItem === route.id}
+                            <Button
+                                variant={
+                                    selectedItem === route.id
+                                        ? "contained"
+                                        : "outlined"
+                                }
+                                fullWidth
                                 sx={{
-                                    borderRight:
-                                        selectedItem === route.id
-                                            ? "3.5px solid #0059ff    "
-                                            : "",
-                                    width: "100%",
+                                    display: "inline-flex",
+                                    justifyContent: "flex-start",
                                 }}
                             >
-                                <ListItemText>{route.label}</ListItemText>
-                            </ListItemButton>
+                                {route.label}
+                            </Button>
                         </Link>
-                    </ListItem>
-                ))}
-            </List>
+                    ))}
+                </List>
+            </Paper>
         </Box>
     );
 };

@@ -3,7 +3,7 @@ import { getLocalItem, jsonParseString } from "../utils/utils";
 
 export type Item = {
     id: number;
-    title: string;
+    title?: string;
     body?: string;
     userId?: number;
     albumId?: number;
@@ -20,6 +20,10 @@ type FavoriteContextType = {
     setPostFavorites: React.Dispatch<React.SetStateAction<any[]>>;
     addToFavoritesPosts: (item: Item) => void;
     removeFromFavoritesPosts: (itemId: number) => void;
+    albumFavorites: Item[];
+    setAlbumFavorites: React.Dispatch<React.SetStateAction<any[]>>;
+    addToFavoritesAlbums: (item: Item) => void;
+    removeFromFavoritesAlbums: (itemId: number) => void;
 };
 
 export const FavoriteContext = React.createContext<
@@ -38,6 +42,11 @@ const FavoriteProvider: React.FC<{ children: React.ReactNode }> = ({
         getLocalItem("posts") === "null"
             ? []
             : jsonParseString(getLocalItem("posts"))
+    );
+    const [albumFavorites, setAlbumFavorites] = useState<Item[]>(
+        getLocalItem("albums") === "null"
+            ? []
+            : jsonParseString(getLocalItem("albums"))
     );
 
     const addToFavorites = (item: Item) => {
@@ -60,6 +69,16 @@ const FavoriteProvider: React.FC<{ children: React.ReactNode }> = ({
         );
     };
 
+    const addToFavoritesAlbums = (item: Item) => {
+        setAlbumFavorites((prevFavorites) => [...prevFavorites, item]);
+    };
+
+    const removeFromFavoritesAlbums = (itemId: number) => {
+        setAlbumFavorites((prevFavorites) =>
+            prevFavorites.filter((item) => item.id !== itemId)
+        );
+    };
+
     return (
         <FavoriteContext.Provider
             value={{
@@ -71,6 +90,10 @@ const FavoriteProvider: React.FC<{ children: React.ReactNode }> = ({
                 setPostFavorites,
                 addToFavoritesPosts,
                 removeFromFavoritesPosts,
+                albumFavorites,
+                setAlbumFavorites,
+                addToFavoritesAlbums,
+                removeFromFavoritesAlbums,
             }}
         >
             {children}

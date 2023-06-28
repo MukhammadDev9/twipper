@@ -27,6 +27,7 @@ const CommentButton: FC<CommentButtonProps> = ({ open, setOpen }) => {
             }}
             aria-label="comment"
             size="small"
+            variant="extended"
             onClick={open ? handleClose : handleOpen}
         >
             {open ? <ChatBubbleIcon /> : <ChatBubbleOutlineIcon />}

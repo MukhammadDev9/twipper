@@ -3,27 +3,27 @@ import { Box, FormGroup, TextField } from "@mui/material";
 import { SubmitButton } from "../atoms";
 import { PostsDetailsErrorI, PostsDetailsI, PostsFormProps } from "./types";
 
-const PostsForm: FC<PostsFormProps> = ({ item = null, userDataId }) => {
+const PostsForm: FC<PostsFormProps> = ({ item = null, userData }) => {
     const [details, setDetails] = useState<PostsDetailsI>({
-        title: "",
+        name: "",
         body: "",
-        userId: userDataId,
+        userId: userData.id,
     });
     const [detailsError, setDetailsError] = useState<PostsDetailsErrorI>({
-        title: false,
+        name: false,
         body: false,
     });
 
     useEffect(() => {
-        if (item !== null)
-            setDetails({ ...details, title: item.title, body: item.body });
+        if (item !== null && item?.body)
+            setDetails({ ...details, name: userData.name, body: item?.body });
     }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (details.title.length === 0) {
-            return setDetailsError({ ...detailsError, title: true });
+        if (details.name.length === 0) {
+            return setDetailsError({ ...detailsError, name: true });
         } else if (details.body.length === 0) {
             return setDetailsError({ ...detailsError, body: true });
         } else {
@@ -40,16 +40,16 @@ const PostsForm: FC<PostsFormProps> = ({ item = null, userDataId }) => {
         >
             <FormGroup sx={{ mb: 2 }}>
                 <TextField
-                    label={"Title"}
+                    label={"Name"}
                     variant="outlined"
                     autoComplete="off"
                     size={"small"}
                     required
                     fullWidth
-                    error={detailsError.title}
-                    value={details.title}
+                    error={detailsError.name}
+                    value={details.name}
                     onChange={(e: any) =>
-                        setDetails({ ...details, title: e.target.value })
+                        setDetails({ ...details, name: e.target.value })
                     }
                 />
             </FormGroup>

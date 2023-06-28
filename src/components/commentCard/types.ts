@@ -1,5 +1,6 @@
 export interface CommentCardProps {
     item: CommentItem
+    username: string
 }
 
 export interface CommentItem {

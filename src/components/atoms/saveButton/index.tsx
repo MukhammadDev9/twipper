@@ -3,6 +3,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Fab } from "@mui/material";
 import { FavoriteContext, Item } from "../../../context";
+import { AlbumResponseData } from "../../../pages/albums/types";
 import { PhotoResponseData } from "../../../pages/photos/types";
 import { PostResponseData } from "../../../pages/posts/types";
 import {
@@ -23,8 +24,10 @@ const SaveButton: FC<SaveButtonProps> = ({ item }) => {
     const handleAddToFavorites = () => {
         if (item?.albumId) {
             context?.addToFavorites(item);
-        } else {
+        } else if (item?.body) {
             context?.addToFavoritesPosts(item);
+        } else {
+            context?.addToFavoritesAlbums(item);
         }
         setSaved(true);
     };
@@ -32,8 +35,10 @@ const SaveButton: FC<SaveButtonProps> = ({ item }) => {
     const handleRemoveFromFavorites = () => {
         if (item?.albumId) {
             context?.removeFromFavorites(item.id);
-        } else {
+        } else if (item?.body) {
             context?.removeFromFavoritesPosts(item.id);
+        } else {
+            context?.addToFavoritesAlbums(item);
         }
         setSaved(false);
     };
@@ -44,8 +49,13 @@ const SaveButton: FC<SaveButtonProps> = ({ item }) => {
                 "photos",
                 jsonStringifyElement(context?.photoFavorites)
             );
-        } else {
+        } else if (item?.body) {
             setLocalItem("posts", jsonStringifyElement(context?.postFavorites));
+        } else {
+            setLocalItem(
+                "albums",
+                jsonStringifyElement(context?.albumFavorites)
+            );
         }
     }, [handleAddToFavorites, handleRemoveFromFavorites]);
 
@@ -57,10 +67,17 @@ const SaveButton: FC<SaveButtonProps> = ({ item }) => {
                     element.id === item.id && setSaved(true);
                 }
             );
-        } else {
+        } else if (item?.body) {
             context?.setPostFavorites(jsonParseString(getLocalItem("posts")));
             jsonParseString(getLocalItem("posts"))?.forEach(
                 (element: PostResponseData) => {
+                    element.id === item.id && setSaved(true);
+                }
+            );
+        } else {
+            context?.setAlbumFavorites(jsonParseString(getLocalItem("albums")));
+            jsonParseString(getLocalItem("albums"))?.forEach(
+                (element: AlbumResponseData) => {
                     element.id === item.id && setSaved(true);
                 }
             );
@@ -72,6 +89,7 @@ const SaveButton: FC<SaveButtonProps> = ({ item }) => {
             color="secondary"
             aria-label="save"
             size="small"
+            variant="extended"
             onClick={saved ? handleRemoveFromFavorites : handleAddToFavorites}
         >
             {saved ? <FavoriteIcon /> : <FavoriteBorderIcon />}

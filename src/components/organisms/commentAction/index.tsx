@@ -5,9 +5,10 @@ import AppCommentDrawer from "../../commentDrawer";
 
 interface CommentActionProps {
     postId: number;
+    username: string;
 }
 
-const CommentAction: FC<CommentActionProps> = ({ postId }) => {
+const CommentAction: FC<CommentActionProps> = ({ postId, username }) => {
     const [open, setOpen] = useState<boolean>(false);
 
     const toggleClose = () => {
@@ -24,6 +25,7 @@ const CommentAction: FC<CommentActionProps> = ({ postId }) => {
                     open={open}
                     toggleClose={toggleClose}
                     postId={postId}
+                    username={username}
                 />
             )}
         </Box>

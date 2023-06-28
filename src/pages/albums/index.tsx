@@ -1,14 +1,14 @@
-import { FC, useState, useEffect } from "react";
+import { useState, type FC, useEffect } from "react";
 import { Box } from "@mui/material";
-import { PostCard, PostCardSkeleton } from "../../components";
+import { AlbumCard, AlbumCardSkeleton } from "../../components";
 import { AppPagination } from "../../components";
 import SearchBar from "../../components/searchBar";
 import { useLoad } from "../../hooks/request";
-import { postsGetUrl, usersGetUrl } from "../../utils/url";
+import { albumsGetUrl, usersGetUrl } from "../../utils/url";
 import { getLocalItem, removeLocalItem, setLocalItem } from "../../utils/utils";
-import { PageSettingsI, PostsProps, PostResponseData } from "./types";
+import { AlbumResponseData, AlbumsProps, PageSettingsI } from "./types";
 
-const Posts: FC<PostsProps> = ({}) => {
+const Albums: FC<AlbumsProps> = ({}) => {
     const [pageSettings, setPageSettings] = useState<PageSettingsI>({
         page:
             getLocalItem("page") === "null" ? 1 : Number(getLocalItem("page")),
@@ -17,9 +17,9 @@ const Posts: FC<PostsProps> = ({}) => {
                 ? 10
                 : Number(getLocalItem("limit")),
     });
-    const postsRequest = useLoad(
+    const albumsRequest = useLoad(
         {
-            url: postsGetUrl(pageSettings.page, pageSettings.limit),
+            url: albumsGetUrl(pageSettings.page, pageSettings.limit),
         },
         [pageSettings]
     );
@@ -50,16 +50,16 @@ const Posts: FC<PostsProps> = ({}) => {
             alignItems={"center"}
         >
             <SearchBar />
-            {postsRequest.loading
+            {albumsRequest.loading
                 ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-                      <PostCardSkeleton key={item} />
+                      <AlbumCardSkeleton key={item} />
                   ))
-                : postsRequest.response?.map((item: PostResponseData) => (
-                      <PostCard
+                : albumsRequest.response?.map((item: AlbumResponseData) => (
+                      <AlbumCard
                           key={item.id}
                           item={item}
                           userList={usersRequest.response}
-                          request={postsRequest.request}
+                          request={albumsRequest.request}
                           usersRequest={usersRequest.request}
                       />
                   ))}
@@ -71,4 +71,4 @@ const Posts: FC<PostsProps> = ({}) => {
     );
 };
 
-export default Posts;
+export default Albums;

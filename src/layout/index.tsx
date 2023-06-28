@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -18,23 +18,25 @@ const Layout: FC<LayoutPropsI> = ({ children }) => {
                 display={"flex"}
                 justifyContent={"space-between"}
             >
-                <Grid xs={3}>
-                    <Box
+                <Grid xs={4}>
+                    <Paper
+                        elevation={3}
                         sx={{
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "space-between",
                             height: "100vh",
                             position: "fixed",
-                            width: { xs: 260 },
+                            width: { xs: 340 },
+                            bgcolor: "#fff",
                         }}
                     >
                         <Header />
                         <Sidebar />
                         <Footer />
-                    </Box>
+                    </Paper>
                 </Grid>
-                <Grid xs={9}>{children}</Grid>
+                <Grid xs={8}>{children}</Grid>
             </Grid>
         </Box>
     );

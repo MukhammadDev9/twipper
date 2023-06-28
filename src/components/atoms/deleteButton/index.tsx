@@ -16,6 +16,7 @@ const DeleteButton: FC<DeleteButtonProps> = ({}) => {
             }}
             aria-label="delete"
             size="small"
+            variant="extended"
         >
             <DeleteIcon />
         </Fab>

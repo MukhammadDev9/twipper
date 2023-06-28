@@ -1,3 +1,5 @@
-import AppSpeedDial from "./SpeedDial";
+import EditAction from "./editAction"
+import DeleteAction from "./deleteAction"
+import CommentAction from "./commentAction"
 
-export { AppSpeedDial }
+export { EditAction, DeleteAction, CommentAction }

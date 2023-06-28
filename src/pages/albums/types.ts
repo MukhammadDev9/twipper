@@ -1,13 +1,12 @@
-export interface PostsProps { }
+export interface AlbumsProps { }
 
-export interface PostResponseData {
+export interface AlbumResponseData {
     id: number
     title?: string
-    body?: string
     userId?: number
 }
 
 export interface PageSettingsI {
     page: number
     limit: number
-} 
+}

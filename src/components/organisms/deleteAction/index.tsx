@@ -7,7 +7,11 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { message } from "antd";
 import { useDeleteRequest } from "../../../hooks/request";
-import { photosDeleteUrl, postsDeleteUrl } from "../../../utils/url";
+import {
+    albumsDeleteUrl,
+    photosDeleteUrl,
+    postsDeleteUrl,
+} from "../../../utils/url";
 import { DeleteButton } from "../../atoms";
 
 interface DeleteActionProps {
@@ -29,6 +33,9 @@ const DeleteAction: FC<DeleteActionProps> = ({
     const photoDeleteRequest = useDeleteRequest({
         url: photosDeleteUrl(id),
     });
+    const albumDeleteRequest = useDeleteRequest({
+        url: albumsDeleteUrl(id),
+    });
     const [open, setOpen] = useState<boolean>(false);
 
     const handleOpen = () => {
@@ -48,6 +55,10 @@ const DeleteAction: FC<DeleteActionProps> = ({
                 message.success("Успешно удалено");
             } else if (forPage === "photos") {
                 await photoDeleteRequest.request();
+                await request();
+                message.success("Успешно удалено");
+            } else if (forPage === "albums") {
+                await albumDeleteRequest.request();
                 await request();
                 message.success("Успешно удалено");
             }
