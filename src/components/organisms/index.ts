@@ -1,5 +1,5 @@
-import EditAction from "./editAction"
-import DeleteAction from "./deleteAction"
-import CommentAction from "./commentAction"
+import EditAction from "./EditAction"
+import DeleteAction from "./DeleteAction"
+import CommentAction from "./CommentAction"
 
 export { EditAction, DeleteAction, CommentAction }

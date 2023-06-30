@@ -1,7 +1,8 @@
 import { useState, type FC } from "react";
 import { Box } from "@mui/material";
-import { PostCard, PostCardSkeleton } from "../../components";
 import { AppPagination } from "../../components";
+import { PostCardSkeleton } from "../../components/CardSkeletons";
+import { PostCard } from "../../components/Cards";
 import { useLoad } from "../../hooks/request";
 import { postsGetUrl } from "../../utils/url";
 import { PostsProps, PostResponseData } from "./types";

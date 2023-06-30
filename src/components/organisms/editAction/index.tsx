@@ -1,9 +1,9 @@
 import { useState, type FC } from "react";
 import { Box } from "@mui/material";
 import { FormDataI } from "../../../utils/types";
-import { EditButton } from "../../atoms";
-import { PostEditDrawer } from "../../editDrawer";
-import AlbumEditDrawer from "../../editDrawer/AlbumEditDrawer";
+import { EditButton } from "../../Atoms";
+import { PostEditDrawer } from "../../Drawers/EditDrawer";
+import AlbumEditDrawer from "../../Drawers/EditDrawer/AlbumEditDrawer";
 
 interface EditActionProps {
     item: FormDataI;

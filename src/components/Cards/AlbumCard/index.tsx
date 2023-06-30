@@ -1,15 +1,21 @@
 import { type FC } from "react";
-import { Box, Paper, Typography, Skeleton } from "@mui/material";
-import { useLoad } from "../../hooks/request";
-import { userById } from "../../utils/url";
-import { SaveButton } from "../atoms";
-import { CommentAction, DeleteAction, EditAction } from "../organisms";
-import { PostCardPropsI } from "./types";
+import { useNavigate } from "react-router-dom";
+import { Box, Paper, Skeleton, Typography } from "@mui/material";
+import { useLoad } from "../../../hooks/request";
+import { userById } from "../../../utils/url";
+import { SaveButton } from "../../Atoms";
+import { EditAction, DeleteAction } from "../../Organisms";
+import { AlbumCardProps } from "./types";
 
-const PostCard: FC<PostCardPropsI> = (props) => {
+const AlbumCard: FC<AlbumCardProps> = (props) => {
+    const navigate = useNavigate();
     const { response, request } = useLoad({
         url: userById(props.item?.userId),
     });
+
+    const handleClick = () => {
+        navigate("/albums/" + props.item?.id);
+    };
 
     return (
         <Box sx={{ my: 2, maxWidth: 600, width: "100%" }}>
@@ -32,13 +38,15 @@ const PostCard: FC<PostCardPropsI> = (props) => {
                         />
                     )}
                 </Typography>
-                {props.item?.body && (
-                    <Typography
-                        variant="body2"
-                        component={"div"}
-                        dangerouslySetInnerHTML={{ __html: props.item?.body }}
-                    />
-                )}
+                <Typography
+                    variant="subtitle1"
+                    sx={{ cursor: "pointer" }}
+                    onClick={handleClick}
+                    color="secondary"
+                    display={"inline"}
+                >
+                    {props.item?.title}
+                </Typography>
                 <Box
                     display="flex"
                     justifyContent="space-between"
@@ -52,12 +60,6 @@ const PostCard: FC<PostCardPropsI> = (props) => {
                         columnGap={2}
                     >
                         <SaveButton item={props.item} />
-                        {response?.name && (
-                            <CommentAction
-                                postId={props.item?.id}
-                                username={response?.name}
-                            />
-                        )}
                     </Box>
                     <Box
                         display="flex"
@@ -67,7 +69,7 @@ const PostCard: FC<PostCardPropsI> = (props) => {
                         {response?.id && response?.name && (
                             <EditAction
                                 item={props.item}
-                                forPage="post"
+                                forPage="album"
                                 userData={{
                                     id: response.id,
                                     name: response.name,
@@ -75,8 +77,8 @@ const PostCard: FC<PostCardPropsI> = (props) => {
                             />
                         )}
                         <DeleteAction
-                            forPage="posts"
-                            id={response?.id}
+                            forPage="albums"
+                            id={props.item?.id}
                             request={props.request}
                             usersRequest={request}
                         />
@@ -87,4 +89,4 @@ const PostCard: FC<PostCardPropsI> = (props) => {
     );
 };
 
-export default PostCard;
+export default AlbumCard;

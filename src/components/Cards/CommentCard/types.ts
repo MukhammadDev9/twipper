@@ -1,9 +1,9 @@
 export interface CommentCardProps {
-    item: CommentItem
+    item: CommentItemI
     username: string
 }
 
-export interface CommentItem {
+export interface CommentItemI {
     id: number
     name: string
     email: string

@@ -1,8 +1,9 @@
 import { type FC, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
-import { PhotoCard, PhotoCardSkeleton } from "../../components";
 import { AppPagination } from "../../components";
+import { PhotoCardSkeleton } from "../../components/CardSkeletons";
+import { PhotoCard } from "../../components/Cards";
 import { useLoad } from "../../hooks/request";
 import { photosGetUrl } from "../../utils/url";
 import { GetResponseI, PhotosPropsI, PhotoResponseData } from "./types";

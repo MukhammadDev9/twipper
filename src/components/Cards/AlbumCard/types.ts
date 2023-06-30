@@ -1,4 +1,4 @@
-import { AlbumResponseData } from "../../pages/albums/types";
+import { AlbumResponseData } from "../../../pages/albums/types";
 
 export interface AlbumCardProps {
     item: AlbumResponseData

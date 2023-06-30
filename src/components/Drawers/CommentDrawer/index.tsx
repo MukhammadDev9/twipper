@@ -1,9 +1,10 @@
 import type { FC } from "react";
 import { Box, Drawer, Typography } from "@mui/material";
-import { CommentCard, CommentCardSkeleton } from "../../components";
-import { useLoad } from "../../hooks/request";
-import { commentsGetUrl } from "../../utils/url";
-import { CommentItem } from "../commentCard/types";
+import { useLoad } from "../../../hooks/request";
+import { commentsGetUrl } from "../../../utils/url";
+import { CommentCardSkeleton } from "../../CardSkeletons";
+import { CommentCard } from "../../Cards";
+import { CommentItemI } from "../../Cards/CommentCard/types";
 
 interface AppCommentDrawerProps {
     open: boolean;
@@ -38,7 +39,7 @@ const AppCommentDrawer: FC<AppCommentDrawerProps> = ({
                     ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: number) => (
                           <CommentCardSkeleton key={item} />
                       ))
-                    : commentRequest.response?.map((item: CommentItem) => (
+                    : commentRequest.response?.map((item: CommentItemI) => (
                           <CommentCard
                               key={item.id}
                               item={item}

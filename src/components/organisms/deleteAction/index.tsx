@@ -12,7 +12,7 @@ import {
     photosDeleteUrl,
     postsDeleteUrl,
 } from "../../../utils/url";
-import { DeleteButton } from "../../atoms";
+import { DeleteButton } from "../../Atoms";
 
 interface DeleteActionProps {
     forPage?: string;

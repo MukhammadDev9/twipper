@@ -1,7 +1,8 @@
 import { type FC, useState } from "react";
 import { Box } from "@mui/material";
-import { AlbumCard, AlbumCardSkeleton } from "../../components";
 import { AppPagination } from "../../components";
+import { AlbumCardSkeleton } from "../../components/CardSkeletons";
+import { AlbumCard } from "../../components/Cards";
 import { useLoad } from "../../hooks/request";
 import { albumsGetUrl } from "../../utils/url";
 import { AlbumResponseData, AlbumsProps } from "./types";

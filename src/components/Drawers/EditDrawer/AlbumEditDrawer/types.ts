@@ -1,4 +1,4 @@
-import { FormDataI } from "../../../utils/types";
+import { FormDataI } from "../../../../utils/types";
 
 export interface AlbumEditDrawerProps {
     open: boolean;

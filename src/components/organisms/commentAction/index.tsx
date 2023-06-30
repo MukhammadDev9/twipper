@@ -1,7 +1,7 @@
 import { useState, type FC } from "react";
 import { Box } from "@mui/material";
-import CommentButton from "../../atoms/commentButton";
-import AppCommentDrawer from "../../commentDrawer";
+import { CommentButton } from "../../Atoms";
+import { AppCommentDrawer } from "../../Drawers";
 
 interface CommentActionProps {
     postId: number;

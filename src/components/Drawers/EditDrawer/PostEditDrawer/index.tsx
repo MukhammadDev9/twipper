@@ -1,6 +1,6 @@
 import { type FC } from "react";
 import { Box, Drawer, Typography } from "@mui/material";
-import { PostForm } from "../../form";
+import { PostForm } from "../../../Form";
 import { PostDrawerProps } from "./types";
 
 const PostEditDrawer: FC<PostDrawerProps> = ({

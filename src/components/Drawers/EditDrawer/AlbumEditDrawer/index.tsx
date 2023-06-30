@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Box, Drawer, Typography } from "@mui/material";
-import { AlbumsForm } from "../../form";
+import { AlbumsForm } from "../../../Form";
 import { AlbumEditDrawerProps } from "./types";
 
 const AlbumEditDrawer: FC<AlbumEditDrawerProps> = ({
