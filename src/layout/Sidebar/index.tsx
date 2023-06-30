@@ -16,13 +16,13 @@ const Sidebar: FC<SidebarPropsI> = ({}) => {
     const [selectedItem, setSelectedItem] = useState<number>(1);
 
     const handleSelectItem = (id: number) => {
-        routes.forEach((route) => {
+        routes?.forEach((route) => {
             route.id !== selectedItem && setSelectedItem(id);
         });
     };
 
     useEffect(() => {
-        routes.forEach((route) => {
+        routes?.forEach((route) => {
             if (window.location.pathname.includes(route.path))
                 setSelectedItem(route.id);
         });

@@ -1,45 +1,31 @@
-import { FC, useEffect, useState } from "react";
+import { type FC, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
 import { PhotoCard, PhotoCardSkeleton } from "../../components";
 import { AppPagination } from "../../components";
 import { useLoad } from "../../hooks/request";
 import { photosGetUrl } from "../../utils/url";
-import { getLocalItem, removeLocalItem, setLocalItem } from "../../utils/utils";
-import {
-    GetResponseI,
-    PageSettingsI,
-    PhotosPropsI,
-    PhotoResponseData,
-} from "./types";
+import { GetResponseI, PhotosPropsI, PhotoResponseData } from "./types";
 
 const Photos: FC<PhotosPropsI> = ({}) => {
     const { id } = useParams();
-    const [pageSettings, setPageSettings] = useState<PageSettingsI>({
-        page:
-            getLocalItem("page") === "null" ? 1 : Number(getLocalItem("page")),
-        limit:
-            getLocalItem("limit") === "null"
-                ? 10
-                : Number(getLocalItem("limit")),
+    const [pageSettings, setPageSettings] = useState<{
+        page: number;
+        limit: string;
+    }>({
+        page: 1,
+        limit: "10",
     });
     const { response, loading } = useLoad<GetResponseI>(
         {
-            url: photosGetUrl(id, pageSettings.page, pageSettings.limit),
+            url: photosGetUrl(
+                id,
+                pageSettings.page,
+                Number(pageSettings.limit)
+            ),
         },
-        [pageSettings]
+        [pageSettings.page, pageSettings.limit]
     );
-
-    useEffect(() => {
-        if (
-            getLocalItem("chapter") === "null" ||
-            getLocalItem("chapter") !== "photos"
-        ) {
-            setLocalItem("chapter", "photos");
-            removeLocalItem("page");
-            removeLocalItem("limit");
-        }
-    }, []);
 
     return (
         <Box
@@ -57,8 +43,9 @@ const Photos: FC<PhotosPropsI> = ({}) => {
                       <PhotoCard key={item.id} item={item} />
                   ))}
             <AppPagination
-                handleChange={setPageSettings}
-                initial={pageSettings}
+                page="photo"
+                pageSettings={pageSettings}
+                setPageSettings={setPageSettings}
             />
         </Box>
     );

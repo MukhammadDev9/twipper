@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect } from "react";
 import {
     Box,
     MenuItem,
@@ -6,26 +6,41 @@ import {
     Select,
     SelectChangeEvent,
 } from "@mui/material";
-import { getLocalItem, setLocalItem } from "../../utils/utils";
+import { getLocalItem, removeLocalItem, setLocalItem } from "../../utils/utils";
 import { AppPaginationPropsI } from "./types";
 
-const AppPagination: FC<AppPaginationPropsI> = ({ handleChange, initial }) => {
-    const [pageApi, setPageApi] = useState(1);
-    const [limitApi, setLimitApi] = useState("10");
-
-    const handleApiChange = (value: number) => {
-        setPageApi(value);
+const AppPagination: FC<AppPaginationPropsI> = ({
+    page,
+    pageSettings,
+    setPageSettings,
+}) => {
+    const handleCurrentPage = (value: number) => {
+        setPageSettings({ ...pageSettings, page: value });
         setLocalItem("page", value);
     };
 
-    const handleSelectChange = (e: SelectChangeEvent) => {
-        setLimitApi(e.target.value);
+    const handleCurrentLimit = (e: SelectChangeEvent) => {
+        setPageSettings({ ...pageSettings, limit: e.target.value });
         setLocalItem("limit", e.target.value);
     };
 
     useEffect(() => {
-        handleChange({ ...initial, page: pageApi, limit: limitApi });
-    }, [pageApi, limitApi]);
+        if (
+            getLocalItem("chapter") === "null" ||
+            getLocalItem("chapter") !== page
+        ) {
+            setLocalItem("chapter", page);
+            removeLocalItem("page");
+            removeLocalItem("limit");
+        }
+
+        if (getLocalItem("page") === "null") {
+            setLocalItem("page", 1);
+        }
+        if (getLocalItem("limit") === "null") {
+            setLocalItem("limit", 10);
+        }
+    }, [pageSettings.page, pageSettings.limit]);
 
     return (
         <Box
@@ -36,25 +51,17 @@ const AppPagination: FC<AppPaginationPropsI> = ({ handleChange, initial }) => {
             my={3}
         >
             <Pagination
-                page={
-                    getLocalItem("page") === "null"
-                        ? initial.page
-                        : Number(getLocalItem("page"))
-                }
+                page={Number(getLocalItem("page"))}
                 count={10}
-                defaultPage={initial.page}
-                onChange={(e, value) => handleApiChange(value)}
+                defaultPage={1}
+                onChange={(_, value) => handleCurrentPage(value)}
                 color="primary"
             />
             <Select
                 size="small"
-                value={
-                    getLocalItem("limit") === "null"
-                        ? String(initial.limit)
-                        : getLocalItem("limit")
-                }
-                defaultValue={initial.limit}
-                onChange={handleSelectChange}
+                value={getLocalItem("limit")}
+                defaultValue={"10"}
+                onChange={handleCurrentLimit}
             >
                 <MenuItem value={10}>10</MenuItem>
                 <MenuItem value={20}>20</MenuItem>

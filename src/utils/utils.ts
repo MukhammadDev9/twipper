@@ -23,3 +23,19 @@ export const jsonParseString = (item: string) => {
 export const jsonStringifyElement = (element: any) => {
     return JSON.stringify(element)
 }
+
+export const formLabel = (title: string, name: string) => ({
+    label: title,
+    name: name,
+    rules: [
+        {
+            required: true,
+            message: `Please input ${title}!`,
+        },
+    ],
+});
+
+export const formInput = (name: string) => ({
+    placeholder: "Type here",
+    name: name,
+});

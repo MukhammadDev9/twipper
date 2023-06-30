@@ -67,7 +67,7 @@ const PostCard: FC<PostCardPropsI> = (props) => {
                         {response?.id && response?.name && (
                             <EditAction
                                 item={props.item}
-                                forPage="posts"
+                                forPage="post"
                                 userData={{
                                     id: response.id,
                                     name: response.name,

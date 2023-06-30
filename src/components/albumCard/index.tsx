@@ -66,16 +66,16 @@ const AlbumCard: FC<AlbumCardProps> = (props) => {
                         justifyContent="space-between"
                         columnGap={2}
                     >
-                        {/* {response?.id && response?.name && (
+                        {response?.id && response?.name && (
                             <EditAction
                                 item={props.item}
-                                forPage="albums"
+                                forPage="album"
                                 userData={{
                                     id: response.id,
                                     name: response.name,
                                 }}
                             />
-                        )} */}
+                        )}
                         <DeleteAction
                             forPage="albums"
                             id={props.item?.id}

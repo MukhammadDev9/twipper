@@ -1,13 +1,12 @@
 import { useState, type FC } from "react";
 import { Box } from "@mui/material";
-import { AlbumResponseData } from "../../../pages/albums/types";
-import { PhotoResponseData } from "../../../pages/photos/types";
-import { PostResponseData } from "../../../pages/posts/types";
+import { FormDataI } from "../../../utils/types";
 import { EditButton } from "../../atoms";
-import AppEditDrawer from "../../editDrawer";
+import { PostEditDrawer } from "../../editDrawer";
+import AlbumEditDrawer from "../../editDrawer/AlbumEditDrawer";
 
 interface EditActionProps {
-    item: (PostResponseData & PhotoResponseData & AlbumResponseData) | null;
+    item: FormDataI;
     forPage: string;
     userData: {
         id: number;
@@ -27,13 +26,22 @@ const EditAction: FC<EditActionProps> = ({ item, forPage, userData }) => {
             <Box onClick={toggleClose} display={"inline"}>
                 <EditButton />
             </Box>
-            <AppEditDrawer
-                forPage={forPage}
-                open={open}
-                toggleClose={toggleClose}
-                item={item}
-                userData={userData}
-            />
+            {forPage === "post" && (
+                <PostEditDrawer
+                    open={open}
+                    toggleClose={toggleClose}
+                    item={item}
+                    userData={userData}
+                />
+            )}
+            {forPage === "album" && (
+                <AlbumEditDrawer
+                    open={open}
+                    toggleClose={toggleClose}
+                    item={item}
+                    userData={userData}
+                />
+            )}
         </Box>
     );
 };

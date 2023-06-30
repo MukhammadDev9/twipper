@@ -8,8 +8,7 @@ import CommentCard from "./commentCard";
 import CommentCardSkeleton from "./commentCardSkeleton";
 import SearchBar from "./searchBar";
 import AppPagination from "./pagination";
-import AppEditDrawer from "./editDrawer";
-import PostsForm from "./form/postsForm";
+import PostForm from "./form/PostForm";
 
 export {
     PostCard,
@@ -22,6 +21,5 @@ export {
     AppPagination,
     CommentCard,
     CommentCardSkeleton,
-    AppEditDrawer,
-    PostsForm
+    PostForm
 }

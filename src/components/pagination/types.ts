@@ -1,4 +1,11 @@
 export interface AppPaginationPropsI {
-    handleChange: React.Dispatch<React.SetStateAction<any>>
-    initial: any
+    page: string
+    setPageSettings: React.Dispatch<React.SetStateAction<{
+        page: number;
+        limit: string;
+    }>>
+    pageSettings: {
+        page: number
+        limit: string
+    }
 }

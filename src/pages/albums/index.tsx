@@ -1,38 +1,25 @@
-import { useState, type FC, useEffect } from "react";
+import { type FC, useState } from "react";
 import { Box } from "@mui/material";
 import { AlbumCard, AlbumCardSkeleton } from "../../components";
 import { AppPagination } from "../../components";
 import { useLoad } from "../../hooks/request";
 import { albumsGetUrl } from "../../utils/url";
-import { getLocalItem, removeLocalItem, setLocalItem } from "../../utils/utils";
-import { AlbumResponseData, AlbumsProps, PageSettingsI } from "./types";
+import { AlbumResponseData, AlbumsProps } from "./types";
 
 const Albums: FC<AlbumsProps> = ({}) => {
-    const [pageSettings, setPageSettings] = useState<PageSettingsI>({
-        page:
-            getLocalItem("page") === "null" ? 1 : Number(getLocalItem("page")),
-        limit:
-            getLocalItem("limit") === "null"
-                ? 10
-                : Number(getLocalItem("limit")),
+    const [pageSettings, setPageSettings] = useState<{
+        page: number;
+        limit: string;
+    }>({
+        page: 1,
+        limit: "10",
     });
     const albumsRequest = useLoad(
         {
-            url: albumsGetUrl(pageSettings.page, pageSettings.limit),
+            url: albumsGetUrl(pageSettings.page, Number(pageSettings.limit)),
         },
-        [pageSettings]
+        [pageSettings.page, pageSettings.limit]
     );
-
-    useEffect(() => {
-        if (
-            getLocalItem("chapter") === "null" ||
-            getLocalItem("chapter") !== "posts"
-        ) {
-            setLocalItem("chapter", "posts");
-            removeLocalItem("page");
-            removeLocalItem("limit");
-        }
-    }, []);
 
     return (
         <Box
@@ -54,8 +41,9 @@ const Albums: FC<AlbumsProps> = ({}) => {
                       />
                   ))}
             <AppPagination
-                handleChange={setPageSettings}
-                initial={pageSettings}
+                page="album"
+                pageSettings={pageSettings}
+                setPageSettings={setPageSettings}
             />
         </Box>
     );

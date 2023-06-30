@@ -1,38 +1,25 @@
-import { FC, useState, useEffect } from "react";
+import { useState, type FC } from "react";
 import { Box } from "@mui/material";
 import { PostCard, PostCardSkeleton } from "../../components";
 import { AppPagination } from "../../components";
 import { useLoad } from "../../hooks/request";
 import { postsGetUrl } from "../../utils/url";
-import { getLocalItem, removeLocalItem, setLocalItem } from "../../utils/utils";
-import { PageSettingsI, PostsProps, PostResponseData } from "./types";
+import { PostsProps, PostResponseData } from "./types";
 
 const Posts: FC<PostsProps> = ({}) => {
-    const [pageSettings, setPageSettings] = useState<PageSettingsI>({
-        page:
-            getLocalItem("page") === "null" ? 1 : Number(getLocalItem("page")),
-        limit:
-            getLocalItem("limit") === "null"
-                ? 10
-                : Number(getLocalItem("limit")),
+    const [pageSettings, setPageSettings] = useState<{
+        page: number;
+        limit: string;
+    }>({
+        page: 1,
+        limit: "10",
     });
     const postsRequest = useLoad(
         {
-            url: postsGetUrl(pageSettings.page, pageSettings.limit),
+            url: postsGetUrl(pageSettings.page, Number(pageSettings.limit)),
         },
-        [pageSettings]
+        [pageSettings.page, pageSettings.limit]
     );
-
-    useEffect(() => {
-        if (
-            getLocalItem("chapter") === "null" ||
-            getLocalItem("chapter") !== "posts"
-        ) {
-            setLocalItem("chapter", "posts");
-            removeLocalItem("page");
-            removeLocalItem("limit");
-        }
-    }, []);
 
     return (
         <Box
@@ -54,8 +41,9 @@ const Posts: FC<PostsProps> = ({}) => {
                       />
                   ))}
             <AppPagination
-                handleChange={setPageSettings}
-                initial={pageSettings}
+                page="post"
+                pageSettings={pageSettings}
+                setPageSettings={setPageSettings}
             />
         </Box>
     );
