@@ -29,6 +29,10 @@ const PhotoCard: FC<PhotoCardPropsI> = ({ item }) => {
                         style={{ objectFit: "cover" }}
                         width="100%"
                         height="100%"
+                        loading="lazy"
+                        decoding="async"
+                        sizes="(max-width: 800px) 100vw, 50vw"
+                        role="presentation"
                     />
                 </Box>
             ) : (

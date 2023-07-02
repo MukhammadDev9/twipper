@@ -8,4 +8,5 @@ export interface PostDrawerProps {
         id: number;
         name: string;
     };
+    request: (AxiosOptions?: any) => void;
 }

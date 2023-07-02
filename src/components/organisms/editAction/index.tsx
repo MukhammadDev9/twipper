@@ -12,9 +12,15 @@ interface EditActionProps {
         id: number;
         name: string;
     };
+    request: (AxiosOptions?: any) => void;
 }
 
-const EditAction: FC<EditActionProps> = ({ item, forPage, userData }) => {
+const EditAction: FC<EditActionProps> = ({
+    item,
+    forPage,
+    userData,
+    request,
+}) => {
     const [open, setOpen] = useState<boolean>(false);
 
     const toggleClose = () => {
@@ -32,6 +38,7 @@ const EditAction: FC<EditActionProps> = ({ item, forPage, userData }) => {
                     toggleClose={toggleClose}
                     item={item}
                     userData={userData}
+                    request={request}
                 />
             )}
             {forPage === "album" && (

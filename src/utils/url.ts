@@ -1,7 +1,7 @@
 // Posts
 export const postsGetUrl = (page: number = 1, limit: number = 10): string => `/posts${limit === 0 ? '' : `?_page=${page}&_limit=${limit}`}`
-export const postsPostUrl: string = '/posts'
-export const postsPutUrl = (id: number): string => `/posts/${id}`
+export const postsPostUrl = (id: number | undefined): string => `/posts/${id}`
+export const postsPutUrl = (id: number | undefined): string => `/posts/${id}`
 export const postsDeleteUrl = (id: number): string => `/posts/${id}`
 
 // Photos
@@ -22,3 +22,6 @@ export const albumsGetUrl = (page: number = 1, limit: number | string = 10): str
 export const albumsPostUrl: string = '/albums'
 export const albumsPutUrl = (id: number): string => `/albums/${id}`
 export const albumsDeleteUrl = (id: number): string => `/albums/${id}`
+
+// Todos
+export const todosGetUrl = (page: number = 1, limit: number | string = 10): string => `/todos${limit === 0 ? '' : `?_page=${page}&_limit=${limit}`}`

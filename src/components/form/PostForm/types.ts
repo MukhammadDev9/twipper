@@ -7,4 +7,11 @@ export interface PostsFormProps {
         name: string
     }
     onClose: () => void
+    request: (AxiosOptions?: any) => void;
+}
+
+export interface PostFormValuesI {
+    title: string;
+    body: string;
+    userId: string;
 }

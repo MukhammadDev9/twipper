@@ -72,6 +72,7 @@ const PostCard: FC<PostCardPropsI> = (props) => {
                                     id: response.id,
                                     name: response.name,
                                 }}
+                                request={props.request}
                             />
                         )}
                         <DeleteAction

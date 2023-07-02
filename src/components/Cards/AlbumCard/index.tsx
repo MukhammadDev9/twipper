@@ -40,7 +40,7 @@ const AlbumCard: FC<AlbumCardProps> = (props) => {
                 </Typography>
                 <Typography
                     variant="subtitle1"
-                    sx={{ cursor: "pointer" }}
+                    sx={{ cursor: "pointer", textDecoration: "underline" }}
                     onClick={handleClick}
                     color="secondary"
                     display={"inline"}
@@ -74,6 +74,7 @@ const AlbumCard: FC<AlbumCardProps> = (props) => {
                                     id: response.id,
                                     name: response.name,
                                 }}
+                                request={props.request}
                             />
                         )}
                         <DeleteAction

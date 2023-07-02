@@ -8,6 +8,7 @@ const PostEditDrawer: FC<PostDrawerProps> = ({
     toggleClose,
     item,
     userData,
+    request,
 }) => {
     return (
         <Drawer anchor="right" open={open} onClose={toggleClose}>
@@ -19,6 +20,7 @@ const PostEditDrawer: FC<PostDrawerProps> = ({
                     item={item}
                     userData={userData}
                     onClose={toggleClose}
+                    request={request}
                 />
             </Box>
         </Drawer>

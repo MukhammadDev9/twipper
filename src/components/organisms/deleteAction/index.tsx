@@ -22,7 +22,7 @@ interface DeleteActionProps {
 }
 
 const DeleteAction: FC<DeleteActionProps> = ({
-    forPage = "post",
+    forPage,
     id,
     request,
     usersRequest,
@@ -80,7 +80,7 @@ const DeleteAction: FC<DeleteActionProps> = ({
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        При согласии {forPage === "post" ? "пост" : "фото"}{" "}
+                        При согласии {forPage === "posts" ? "пост" : "фото"}{" "}
                         безвозвратно удалится. Вы согласны?
                     </DialogContentText>
                 </DialogContent>
