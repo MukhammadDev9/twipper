@@ -1,7 +1,7 @@
 import { FormDataI } from "../../../utils/types";
 
 export interface AlbumsFormProps {
-    item: FormDataI
+    item: FormDataI | null
     userData: {
         id: number
         name: string

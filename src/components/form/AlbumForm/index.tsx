@@ -30,7 +30,7 @@ const AlbumsForm: FC<AlbumsFormProps> = ({
         },
     });
     const { response } = useLoad({ url: usersGetUrl });
-    const [userId, setUserId] = useState<string>(userData.id.toString());
+    const [userId, setUserId] = useState<string>(userData?.id?.toString());
     const [form] = Form.useForm();
 
     const handleChange = (event: SelectChangeEvent) => {

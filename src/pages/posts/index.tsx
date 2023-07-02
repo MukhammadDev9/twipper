@@ -3,8 +3,9 @@ import { Box } from "@mui/material";
 import { AppPagination } from "../../components";
 import { PostCardSkeleton } from "../../components/CardSkeletons";
 import { PostCard } from "../../components/Cards";
+import { AddAction } from "../../components/Organisms";
 import { useLoad } from "../../hooks/request";
-import { postsGetUrl } from "../../utils/url";
+import { postsGetUrl, usersGetUrl } from "../../utils/url";
 import { PostsProps, PostResponseData } from "./types";
 
 const Posts: FC<PostsProps> = ({}) => {
@@ -21,6 +22,9 @@ const Posts: FC<PostsProps> = ({}) => {
         },
         [pageSettings.page, pageSettings.limit]
     );
+    const { response } = useLoad({
+        url: usersGetUrl,
+    });
 
     return (
         <Box
@@ -29,7 +33,16 @@ const Posts: FC<PostsProps> = ({}) => {
             justifyContent={"center"}
             flexDirection={"column"}
             alignItems={"center"}
+            py={2}
         >
+            <Box display={"flex"} justifyContent={"center"}>
+                <AddAction
+                    item={null}
+                    forPage="post"
+                    userData={response}
+                    request={postsRequest.request}
+                />
+            </Box>
             {postsRequest.loading
                 ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
                       <PostCardSkeleton key={item} />

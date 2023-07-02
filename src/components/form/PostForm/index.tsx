@@ -35,7 +35,7 @@ const PostsForm: FC<PostsFormProps> = ({
         },
     });
     const { response } = useLoad({ url: usersGetUrl });
-    const [userId, setUserId] = useState<string>(userData.id.toString());
+    const [userId, setUserId] = useState<string>(userData?.id?.toString());
     const [form] = Form.useForm();
 
     const handleChange = (event: SelectChangeEvent) => {

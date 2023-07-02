@@ -3,8 +3,9 @@ import { Box } from "@mui/material";
 import { AppPagination } from "../../components";
 import { AlbumCardSkeleton } from "../../components/CardSkeletons";
 import { AlbumCard } from "../../components/Cards";
+import { AddAction } from "../../components/Organisms";
 import { useLoad } from "../../hooks/request";
-import { albumsGetUrl } from "../../utils/url";
+import { albumsGetUrl, usersGetUrl } from "../../utils/url";
 import { AlbumResponseData, AlbumsProps } from "./types";
 
 const Albums: FC<AlbumsProps> = ({}) => {
@@ -21,6 +22,9 @@ const Albums: FC<AlbumsProps> = ({}) => {
         },
         [pageSettings.page, pageSettings.limit]
     );
+    const { response } = useLoad({
+        url: usersGetUrl,
+    });
 
     return (
         <Box
@@ -29,7 +33,16 @@ const Albums: FC<AlbumsProps> = ({}) => {
             justifyContent={"center"}
             flexDirection={"column"}
             alignItems={"center"}
+            py={2}
         >
+            <Box display={"flex"} justifyContent={"center"}>
+                <AddAction
+                    item={null}
+                    forPage="album"
+                    userData={response}
+                    request={albumsRequest.request}
+                />
+            </Box>
             {albumsRequest.loading
                 ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
                       <AlbumCardSkeleton key={item} />
