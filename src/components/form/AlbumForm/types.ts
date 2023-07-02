@@ -7,4 +7,10 @@ export interface AlbumsFormProps {
         name: string
     }
     onClose: () => void
+    request: (AxiosOptions?: any) => void
+}
+
+export interface AlbumFormValues {
+    title: string
+    userId: number
 }

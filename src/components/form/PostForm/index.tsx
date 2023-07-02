@@ -43,28 +43,32 @@ const PostsForm: FC<PostsFormProps> = ({
     };
 
     const onFinish = async (values: PostFormValuesI) => {
-        if (item !== null) {
-            await putRequest.request({
-                data: JSON.stringify({
-                    title: values.title,
-                    body: values.body,
-                    userId: Number(userId),
-                }),
-            });
-            await request();
-            onClose();
-        } else {
-            await postRequest.request({
-                data: JSON.stringify({
-                    title: values.title,
-                    body: values.body,
-                    userId: Number(userId),
-                }),
-            });
-            await request();
-            onClose();
+        try {
+            if (item !== null) {
+                await putRequest.request({
+                    data: JSON.stringify({
+                        title: values.title,
+                        body: values.body,
+                        userId: Number(userId),
+                    }),
+                });
+                await request();
+                onClose();
+            } else {
+                await postRequest.request({
+                    data: JSON.stringify({
+                        title: values.title,
+                        body: values.body,
+                        userId: Number(userId),
+                    }),
+                });
+                await request();
+                onClose();
+            }
+            message.success("Success!");
+        } catch (error) {
+            message.error("Something went wrong!");
         }
-        message.success("Success!");
     };
 
     const onFinishFailed = ({ errorFields }: { errorFields: any }) => {

@@ -8,6 +8,7 @@ const AlbumEditDrawer: FC<AlbumEditDrawerProps> = ({
     toggleClose,
     item,
     userData,
+    request,
 }) => {
     return (
         <Drawer anchor="right" open={open} onClose={toggleClose}>
@@ -19,6 +20,7 @@ const AlbumEditDrawer: FC<AlbumEditDrawerProps> = ({
                     item={item}
                     userData={userData}
                     onClose={toggleClose}
+                    request={request}
                 />
             </Box>
         </Drawer>

@@ -47,6 +47,7 @@ const EditAction: FC<EditActionProps> = ({
                     toggleClose={toggleClose}
                     item={item}
                     userData={userData}
+                    request={request}
                 />
             )}
         </Box>
