@@ -1,20 +1,27 @@
-import { type FC } from "react";
+import { type FC, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Paper, Skeleton, Typography } from "@mui/material";
-import { useLoad } from "../../../hooks/request";
-import { userById } from "../../../utils/url";
 import { SaveButton } from "../../Atoms";
 import { EditAction, DeleteAction } from "../../Organisms";
-import { AlbumCardProps } from "./types";
+import { AlbumCardProps, UserData } from "./types";
 
-const AlbumCard: FC<AlbumCardProps> = (props) => {
+const AlbumCard: FC<AlbumCardProps> = ({ item, request, userList }) => {
     const navigate = useNavigate();
-    const { response, request } = useLoad({
-        url: userById(props.item?.userId),
+    const [userData, setUserData] = useState<UserData>({
+        id: 0,
+        name: "",
     });
 
+    useEffect(() => {
+        userList?.forEach((user) => {
+            if (user.id === item?.userId) {
+                setUserData({ ...userData, id: user.id, name: user.name });
+            }
+        });
+    }, [item]);
+
     const handleClick = () => {
-        navigate("/albums/" + props.item?.id);
+        navigate("/albums/" + item.id);
     };
 
     return (
@@ -27,8 +34,8 @@ const AlbumCard: FC<AlbumCardProps> = (props) => {
                 }}
             >
                 <Typography variant="h6" color={"#404040"} mb={1}>
-                    {response?.name ? (
-                        response.name
+                    {userData.name ? (
+                        userData.name
                     ) : (
                         <Skeleton
                             variant="rounded"
@@ -45,7 +52,7 @@ const AlbumCard: FC<AlbumCardProps> = (props) => {
                     color="secondary"
                     display={"inline"}
                 >
-                    {props.item?.title}
+                    {item.title}
                 </Typography>
                 <Box
                     display="flex"
@@ -59,29 +66,26 @@ const AlbumCard: FC<AlbumCardProps> = (props) => {
                         justifyContent="space-between"
                         columnGap={2}
                     >
-                        <SaveButton item={props.item} />
+                        <SaveButton item={item} />
                     </Box>
                     <Box
                         display="flex"
                         justifyContent="space-between"
                         columnGap={2}
                     >
-                        {response?.id && response?.name && (
-                            <EditAction
-                                item={props.item}
-                                forPage="album"
-                                userData={{
-                                    id: response.id,
-                                    name: response.name,
-                                }}
-                                request={props.request}
-                            />
-                        )}
+                        <EditAction
+                            item={item}
+                            forPage="album"
+                            userData={{
+                                id: userData.id,
+                                name: userData.name,
+                            }}
+                            request={request}
+                        />
                         <DeleteAction
                             forPage="albums"
-                            id={props.item?.id}
-                            request={props.request}
-                            usersRequest={request}
+                            id={item.id}
+                            request={request}
                         />
                     </Box>
                 </Box>

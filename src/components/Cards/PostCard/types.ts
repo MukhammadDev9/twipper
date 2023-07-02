@@ -3,5 +3,11 @@ import { UserDataI } from "../../../utils/types";
 
 export interface PostCardPropsI {
     item: PostResponseData
-    request: () => void
+    request: (AxiosOptions?: any) => void
+    userList: UserDataI[]
+}
+
+export interface UserData {
+    id: number
+    name: string
 }

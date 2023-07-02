@@ -1,15 +1,22 @@
-import { type FC } from "react";
+import { type FC, useState, useEffect } from "react";
 import { Box, Paper, Typography, Skeleton } from "@mui/material";
-import { useLoad } from "../../../hooks/request";
-import { userById } from "../../../utils/url";
 import { SaveButton } from "../../Atoms";
 import { CommentAction, DeleteAction, EditAction } from "../../Organisms";
-import { PostCardPropsI } from "./types";
+import { PostCardPropsI, UserData } from "./types";
 
-const PostCard: FC<PostCardPropsI> = (props) => {
-    const { response, request } = useLoad({
-        url: userById(props.item?.userId),
+const PostCard: FC<PostCardPropsI> = ({ item, userList, request }) => {
+    const [userData, setUserData] = useState<UserData>({
+        id: 0,
+        name: "",
     });
+
+    useEffect(() => {
+        userList?.forEach((user) => {
+            if (user.id === item?.userId) {
+                setUserData({ ...userData, id: user.id, name: user.name });
+            }
+        });
+    }, [item]);
 
     return (
         <Box sx={{ my: 2, maxWidth: 600, width: "100%" }}>
@@ -21,8 +28,8 @@ const PostCard: FC<PostCardPropsI> = (props) => {
                 }}
             >
                 <Typography variant="h6" color={"#404040"} mb={1}>
-                    {response?.name ? (
-                        response.name
+                    {userData?.name ? (
+                        userData.name
                     ) : (
                         <Skeleton
                             variant="rounded"
@@ -32,11 +39,11 @@ const PostCard: FC<PostCardPropsI> = (props) => {
                         />
                     )}
                 </Typography>
-                {props.item?.body && (
+                {item?.body && (
                     <Typography
                         variant="body2"
                         component={"div"}
-                        dangerouslySetInnerHTML={{ __html: props.item?.body }}
+                        dangerouslySetInnerHTML={{ __html: item.body }}
                     />
                 )}
                 <Box
@@ -51,35 +58,31 @@ const PostCard: FC<PostCardPropsI> = (props) => {
                         justifyContent="space-between"
                         columnGap={2}
                     >
-                        <SaveButton item={props.item} />
-                        {response?.name && (
-                            <CommentAction
-                                postId={props.item?.id}
-                                username={response?.name}
-                            />
-                        )}
+                        <SaveButton item={item} />
+                        <CommentAction
+                            postId={item?.id}
+                            username={userData.name}
+                        />
                     </Box>
                     <Box
                         display="flex"
                         justifyContent="space-between"
                         columnGap={2}
                     >
-                        {response?.id && response?.name && (
-                            <EditAction
-                                item={props.item}
-                                forPage="post"
-                                userData={{
-                                    id: response.id,
-                                    name: response.name,
-                                }}
-                                request={props.request}
-                            />
-                        )}
+                        <EditAction
+                            item={item}
+                            forPage="post"
+                            userData={{
+                                id: userData.id,
+                                name: userData.name,
+                            }}
+                            request={request}
+                        />
+
                         <DeleteAction
                             forPage="posts"
-                            id={response?.id}
-                            request={props.request}
-                            usersRequest={request}
+                            id={userData.id}
+                            request={request}
                         />
                     </Box>
                 </Box>

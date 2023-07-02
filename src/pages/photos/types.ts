@@ -9,8 +9,3 @@ export interface PhotoResponseData {
     url?: string
     thumbnailUrl?: string
 }
-
-export interface PageSettingsI {
-    page: number
-    limit: number
-}

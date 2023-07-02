@@ -18,15 +18,9 @@ interface DeleteActionProps {
     forPage?: string;
     id: number;
     request: () => void;
-    usersRequest?: () => void;
 }
 
-const DeleteAction: FC<DeleteActionProps> = ({
-    forPage,
-    id,
-    request,
-    usersRequest,
-}) => {
+const DeleteAction: FC<DeleteActionProps> = ({ forPage, id, request }) => {
     const postDeleteRequest = useDeleteRequest({
         url: postsDeleteUrl(id),
     });
@@ -50,22 +44,22 @@ const DeleteAction: FC<DeleteActionProps> = ({
         try {
             if (forPage === "posts") {
                 await postDeleteRequest.request();
-                await request();
-                usersRequest !== undefined && (await usersRequest());
                 message.success("Успешно удалено");
+                setOpen(false);
+                await request();
             } else if (forPage === "photos") {
                 await photoDeleteRequest.request();
-                await request();
                 message.success("Успешно удалено");
+                setOpen(false);
+                await request();
             } else if (forPage === "albums") {
                 await albumDeleteRequest.request();
-                await request();
                 message.success("Успешно удалено");
+                setOpen(false);
+                await request();
             }
         } catch (error) {
-            throw error;
-        } finally {
-            setOpen(false);
+            message.error("Something went wrong!");
         }
     };
 

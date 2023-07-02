@@ -4,18 +4,18 @@ import { Box } from "@mui/material";
 import { AppPagination } from "../../components";
 import { PhotoCardSkeleton } from "../../components/CardSkeletons";
 import { PhotoCard } from "../../components/Cards";
+import { PageSettingsI } from "../../components/Pagination/types";
 import { useLoad } from "../../hooks/request";
 import { photosGetUrl } from "../../utils/url";
+import { getLocalItem } from "../../utils/utils";
 import { GetResponseI, PhotosPropsI, PhotoResponseData } from "./types";
 
 const Photos: FC<PhotosPropsI> = ({}) => {
     const { id } = useParams();
-    const [pageSettings, setPageSettings] = useState<{
-        page: number;
-        limit: string;
-    }>({
-        page: 1,
-        limit: "10",
+    const [pageSettings, setPageSettings] = useState<PageSettingsI>({
+        page:
+            getLocalItem("page") === "null" ? 1 : Number(getLocalItem("page")),
+        limit: getLocalItem("page") === "null" ? "10" : getLocalItem("limit"),
     });
     const { response, loading } = useLoad<GetResponseI>(
         {

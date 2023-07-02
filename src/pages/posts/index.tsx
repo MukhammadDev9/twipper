@@ -4,17 +4,17 @@ import { AppPagination } from "../../components";
 import { PostCardSkeleton } from "../../components/CardSkeletons";
 import { PostCard } from "../../components/Cards";
 import { AddAction } from "../../components/Organisms";
+import { PageSettingsI } from "../../components/Pagination/types";
 import { useLoad } from "../../hooks/request";
 import { postsGetUrl, usersGetUrl } from "../../utils/url";
+import { getLocalItem } from "../../utils/utils";
 import { PostsProps, PostResponseData } from "./types";
 
 const Posts: FC<PostsProps> = ({}) => {
-    const [pageSettings, setPageSettings] = useState<{
-        page: number;
-        limit: string;
-    }>({
-        page: 1,
-        limit: "10",
+    const [pageSettings, setPageSettings] = useState<PageSettingsI>({
+        page:
+            getLocalItem("page") === "null" ? 1 : Number(getLocalItem("page")),
+        limit: getLocalItem("page") === "null" ? "10" : getLocalItem("limit"),
     });
     const postsRequest = useLoad(
         {
@@ -22,7 +22,7 @@ const Posts: FC<PostsProps> = ({}) => {
         },
         [pageSettings.page, pageSettings.limit]
     );
-    const { response } = useLoad({
+    const usersRequest = useLoad({
         url: usersGetUrl,
     });
 
@@ -39,7 +39,7 @@ const Posts: FC<PostsProps> = ({}) => {
                 <AddAction
                     item={null}
                     forPage="post"
-                    userData={response}
+                    userData={usersRequest.response}
                     request={postsRequest.request}
                 />
             </Box>
@@ -51,6 +51,7 @@ const Posts: FC<PostsProps> = ({}) => {
                       <PostCard
                           key={item.id}
                           item={item}
+                          userList={usersRequest.response}
                           request={postsRequest.request}
                       />
                   ))}

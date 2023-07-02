@@ -4,17 +4,17 @@ import { AppPagination } from "../../components";
 import { AlbumCardSkeleton } from "../../components/CardSkeletons";
 import { AlbumCard } from "../../components/Cards";
 import { AddAction } from "../../components/Organisms";
+import { PageSettingsI } from "../../components/Pagination/types";
 import { useLoad } from "../../hooks/request";
 import { albumsGetUrl, usersGetUrl } from "../../utils/url";
+import { getLocalItem } from "../../utils/utils";
 import { AlbumResponseData, AlbumsProps } from "./types";
 
 const Albums: FC<AlbumsProps> = ({}) => {
-    const [pageSettings, setPageSettings] = useState<{
-        page: number;
-        limit: string;
-    }>({
-        page: 1,
-        limit: "10",
+    const [pageSettings, setPageSettings] = useState<PageSettingsI>({
+        page:
+            getLocalItem("page") === "null" ? 1 : Number(getLocalItem("page")),
+        limit: getLocalItem("page") === "null" ? "10" : getLocalItem("limit"),
     });
     const albumsRequest = useLoad(
         {
@@ -22,7 +22,7 @@ const Albums: FC<AlbumsProps> = ({}) => {
         },
         [pageSettings.page, pageSettings.limit]
     );
-    const { response } = useLoad({
+    const usersRequest = useLoad({
         url: usersGetUrl,
     });
 
@@ -39,7 +39,7 @@ const Albums: FC<AlbumsProps> = ({}) => {
                 <AddAction
                     item={null}
                     forPage="album"
-                    userData={response}
+                    userData={usersRequest.response}
                     request={albumsRequest.request}
                 />
             </Box>
@@ -51,6 +51,7 @@ const Albums: FC<AlbumsProps> = ({}) => {
                       <AlbumCard
                           key={item.id}
                           item={item}
+                          userList={usersRequest.response}
                           request={albumsRequest.request}
                       />
                   ))}
