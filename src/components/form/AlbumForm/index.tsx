@@ -18,7 +18,7 @@ const AlbumsForm: FC<AlbumsFormProps> = ({
     request,
 }) => {
     const postRequest = usePostRequest({
-        url: albumsPostUrl(item?.id),
+        url: albumsPostUrl,
         headers: {
             "Content-type": "application/json; charset=UTF-8",
         },

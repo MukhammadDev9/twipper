@@ -23,7 +23,7 @@ const PostsForm: FC<PostsFormProps> = ({
     request,
 }) => {
     const postRequest = usePostRequest({
-        url: postsPostUrl(item?.id),
+        url: postsPostUrl,
         headers: {
             "Content-type": "application/json; charset=UTF-8",
         },
